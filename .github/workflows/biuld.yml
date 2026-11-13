@@ -1,23 +1,30 @@
-
 name: 'Build Tauri App'
+
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
-  build:
+  build-tauri:
+    permissions:
+      contents: write
     runs-on: windows-latest
+
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
+      
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install Rust
+
+      - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
+
       - name: Install dependencies
         run: npm install
+
       - name: Build Tauri App
         uses: tauri-apps/tauri-action@v0
         env:
@@ -25,5 +32,6 @@ jobs:
         with:
           tagName: app-v__VERSION__
           releaseName: 'App v__VERSION__'
+          releaseBody: 'See the assets to download this version and install.'
           releaseDraft: true
           prerelease: false
