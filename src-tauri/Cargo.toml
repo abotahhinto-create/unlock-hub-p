@@ -1,8 +1,7 @@
-
 [package]
-name = "unlock-hub-pro"
+name = "unlock-hub"
 version = "1.0.0"
-description = "Unlock Hub Desktop App"
+description = "Unlock Hub App"
 authors = ["Nashwan"]
 edition = "2021"
 
