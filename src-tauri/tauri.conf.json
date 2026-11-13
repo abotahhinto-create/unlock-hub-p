@@ -1,7 +1,26 @@
-"bundle": {
-  "active": true,
-  "targets": "all",
-  "icon": [
-    "icons/icon.png"
-  ]
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "UnlockHub",
+  "version": "1.0.0",
+  "identifier": "com.nashwan.unlockhub",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Unlock Hub",
+        "width": 1200,
+        "height": 800
+      }
+    ]
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/icon.ico",
+      "icons/icon.png"
+    ]
+  }
 }
