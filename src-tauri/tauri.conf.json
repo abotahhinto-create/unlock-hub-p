@@ -1,7 +1,6 @@
-
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "UnlockHubPro",
+  "productName": "UnlockHub",
   "version": "1.0.0",
   "identifier": "com.nashwan.unlockhub",
   "build": {
@@ -9,18 +8,12 @@
   },
   "app": {
     "windows": [
-      {
-        "title": "Unlock Hub Pro",
-        "width": 1200,
-        "height": 800
-      }
+      { "title": "Unlock Hub", "width": 1000, "height": 700 }
     ]
   },
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": [
-      "icons/icon.png"
-    ]
+    "icon": ["icons/icon.png"]
   }
 }
