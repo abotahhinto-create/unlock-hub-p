@@ -1,4 +1,5 @@
 name: 'Build Tauri App'
+
 on:
   push:
     branches: [ main ]
@@ -9,16 +10,21 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+        
       - name: Install dependencies
         run: npm install
-      - name: Generate Icons
-        run: npx tauri icon src-tauri/icons/icon.png
+        
+      - name: Generate Icons (Auto-Fit)
+        run: npx tauri icon src-tauri/icons/icon.png --fit contain
+        
       - name: Build Tauri App
         uses: tauri-apps/tauri-action@v0
         env:
