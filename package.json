@@ -1,14 +1,13 @@
 {
-  "name": "unlock-hub-pro",
+  "name": "unlock-hub",
   "version": "1.0.0",
   "scripts": {
-    "tauri": "tauri",
-    "tauri:build": "tauri build"
-  },
-  "devDependencies": {
-    "@tauri-apps/cli": "^2.0.0"
+    "tauri": "tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
   }
 }
