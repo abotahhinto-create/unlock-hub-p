@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0a0e17">
-<title>نظام برمجة وفك وتعريب شفرات الأجهزة الإلكترونية</title>
-<link rel="manifest" href="manifest.json">
+<title>نظام برمجة وفك شفرات وتعريب التلفونات</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
 <!-- Firebase SDK -->
@@ -14,17 +12,15 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <style>
-/* ========== الثيمات (Themes) ========== */
+/* ========== الثيمات ========== */
 :root {
   --bg: #0a0e17; --surface: #111827; --surface-light: #1f2937; --border: #2d3748;
   --primary: #00d4aa; --primary-dark: #00b894; --danger: #e74c3c; --warning: #f39c12;
-  --info: #3498db; --purple: #9b59b6; --text: #e2e8f0; --text-muted: #94a3b8;
-  --radius: 10px; --radius-lg: 14px; --shadow: 0 4px 20px rgba(0,0,0,.4); --transition: all .3s ease;
+  --info: #3498db; --text: #e2e8f0; --text-muted: #94a3b8; --sidebar-width: 260px;
 }
 [data-theme="light"] {
   --bg: #f3f4f6; --surface: #ffffff; --surface-light: #f9fafb; --border: #e5e7eb;
   --primary: #059669; --primary-dark: #047857; --text: #1f2937; --text-muted: #6b7280;
-  --shadow: 0 4px 20px rgba(0,0,0,.08);
 }
 [data-theme="cyber"] {
   --bg: #050505; --surface: #111111; --surface-light: #1a1a1a; --border: #333333;
@@ -42,509 +38,258 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; display: fl
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-/* ========== القائمة الجانبية (Sidebar) ========== */
+/* ========== القائمة الجانبية ========== */
 .sidebar {
-  width: 280px; background: var(--surface); border-left: 1px solid var(--border);
+  width: var(--sidebar-width); background: var(--surface); border-left: 1px solid var(--border);
   height: 100vh; position: fixed; top: 0; right: 0; z-index: 1000;
   display: flex; flex-direction: column; transition: transform 0.3s ease;
-  box-shadow: -4px 0 20px rgba(0,0,0,0.2);
+  box-shadow: -4px 0 15px rgba(0,0,0,0.1);
 }
-.sidebar-header { padding: 20px; text-align: center; border-bottom: 1px solid var(--border); }
-.sidebar-logo { width: 60px; height: 60px; margin: 0 auto 10px; }
-.sidebar-title { font-size: 16px; font-weight: 800; color: var(--primary); line-height: 1.4; }
-.sidebar-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.sidebar-header { padding: 20px 15px; text-align: center; border-bottom: 1px solid var(--border); }
+.sidebar-logo { width: 50px; height: 50px; margin: 0 auto 10px; background: linear-gradient(135deg, var(--primary), var(--info)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #0a0e17; font-weight: bold; }
+.sidebar-title { font-size: 14px; font-weight: 800; color: var(--primary); line-height: 1.4; }
 .nav-links { flex: 1; overflow-y: auto; padding: 10px 0; }
 .nav-btn {
-  width: 100%; padding: 14px 20px; text-align: right; background: transparent; border: none;
-  color: var(--text-muted); font-size: 14px; font-weight: 500; cursor: pointer;
-  display: flex; align-items: center; gap: 12px; transition: var(--transition);
+  width: 100%; padding: 12px 20px; text-align: right; background: transparent; border: none;
+  color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; gap: 10px; transition: 0.2s;
 }
-.nav-btn:hover { background: var(--surface-light); color: var(--text); border-right: 4px solid var(--primary); }
-.nav-btn.active { background: rgba(0,212,170,0.1); color: var(--primary); border-right: 4px solid var(--primary); font-weight: 700; }
-.sidebar-footer { padding: 15px; border-top: 1px solid var(--border); text-align: center; font-size: 11px; color: var(--text-muted); }
+.nav-btn:hover, .nav-btn.active { background: rgba(0, 212, 170, 0.1); color: var(--primary); border-right: 4px solid var(--primary); }
 
-/* ========== المحتوى الرئيسي (Main Content) ========== */
-.main-wrapper {
-  flex: 1; margin-right: 280px; min-height: 100vh; display: flex; flex-direction: column;
-  transition: margin 0.3s ease;
-}
-.top-bar {
-  background: var(--surface); padding: 12px 24px; display: flex; justify-content: space-between;
-  align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50;
-}
+/* ========== المحتوى الرئيسي ========== */
+.main-wrapper { flex: 1; margin-right: var(--sidebar-width); display: flex; flex-direction: column; transition: margin 0.3s; }
+.top-bar { background: var(--surface); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
 .menu-toggle { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
-.top-actions { display: flex; align-items: center; gap: 15px; }
-.theme-switch { display: flex; gap: 5px; background: var(--surface-light); padding: 4px; border-radius: 20px; }
-.theme-btn { width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: 0.2s; }
-.theme-btn.active { border-color: var(--primary); transform: scale(1.1); }
-.theme-btn.dark { background: #0a0e17; }
-.theme-btn.light { background: #f3f4f6; }
-.theme-btn.cyber { background: #ff00ff; }
-.theme-btn.ocean { background: #38bdf8; }
-.user-badge { display: flex; align-items: center; gap: 8px; font-size: 12px; background: var(--surface-light); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); }
+.theme-btn { background: var(--surface-light); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-left: 5px; }
+.theme-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
 
-/* ========== الصفحات ========== */
-.app-container { padding: 24px; max-width: 1400px; margin: 0 auto; width: 100%; flex: 1; }
+.app-container { padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; flex: 1; }
 .page { display: none; animation: fadeIn 0.3s ease; }
 .page.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ========== البطاقات والعناصر ========== */
-.card { background: var(--surface); border-radius: var(--radius-lg); padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: var(--shadow); }
-.card h2, .card h3 { color: var(--primary); font-size: 18px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+/* ========== البطاقات المدمجة ========== */
+.card { background: var(--surface); border-radius: 12px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.card-title { color: var(--primary); font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-.btn { padding: 10px 18px; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 700; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #fff; }
-.btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #0a0e17; }
-.btn-danger { background: linear-gradient(135deg, #e74c3c, #c0392b); }
-.btn-warning { background: linear-gradient(135deg, #f39c12, #e67e22); color: #0a0e17; }
-.btn-info { background: linear-gradient(135deg, #3498db, #2980b9); }
-.btn-purple { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
-.btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
-.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
-.btn-sm { padding: 6px 12px; font-size: 11px; }
-.btn-block { width: 100%; margin-bottom: 10px; }
+/* أزرار العمليات المدمجة */
+.action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px; }
+.action-btn { padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: #fff; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.action-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.btn-frp { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.btn-arabic { background: linear-gradient(135deg, #3498db, #2980b9); }
+.btn-3g { background: linear-gradient(135deg, #f39c12, #e67e22); }
+.btn-network { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
 
-.form-group { margin-bottom: 16px; }
-.form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
-.form-control { width: 100%; padding: 12px; background: var(--surface-light); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; transition: var(--transition); font-family: inherit; }
-.form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,212,170,.15); }
+/* الحقول */
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
+.form-control { width: 100%; padding: 10px; background: var(--surface-light); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
+.form-control:focus { outline: none; border-color: var(--primary); }
 
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-@media(max-width: 1024px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-@media(max-width: 768px) {
-  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+/* الجداول */
+.table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { padding: 10px; text-align: right; border-bottom: 1px solid var(--border); }
+th { background: var(--surface-light); color: var(--primary); font-weight: 700; }
+tr:hover td { background: var(--surface-light); }
+
+/* السجل */
+.terminal { background: #000; color: #00ff88; font-family: monospace; padding: 10px; border-radius: 8px; height: 200px; overflow-y: auto; font-size: 12px; direction: ltr; text-align: left; border: 1px solid var(--border); }
+
+/* التنبيهات */
+.alert { padding: 10px 15px; border-radius: 8px; font-size: 12px; line-height: 1.6; margin-bottom: 15px; border-right: 4px solid; }
+.alert-danger { background: rgba(231, 76, 60, 0.1); border-color: var(--danger); color: #ff9a8f; }
+.alert-info { background: rgba(52, 152, 219, 0.1); border-color: var(--info); color: #7dc4e8; }
+
+@media (max-width: 768px) {
   .sidebar { transform: translateX(100%); }
   .sidebar.open { transform: translateX(0); }
   .main-wrapper { margin-right: 0; }
   .menu-toggle { display: block; }
+  .action-grid { grid-template-columns: 1fr; }
 }
-
-/* ========== إحصائيات ========== */
-.stat-card { background: var(--surface); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border); position: relative; overflow: hidden; }
-.stat-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: var(--primary); }
-.stat-card.danger::before { background: var(--danger); }
-.stat-card.warning::before { background: var(--warning); }
-.stat-card.info::before { background: var(--info); }
-.stat-card .stat-label { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
-.stat-card .stat-value { font-size: 28px; font-weight: 800; color: var(--text); }
-
-/* ========== بطاقات الأجهزة ========== */
-.device-card { background: var(--surface-light); padding: 16px; border-radius: var(--radius); border: 1px solid var(--border); cursor: pointer; transition: var(--transition); }
-.device-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow); }
-.device-card.selected { border-color: var(--primary); background: rgba(0,212,170,.1); box-shadow: 0 0 0 2px var(--primary); }
-.device-card .model { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
-.device-card .brand { font-size: 12px; color: var(--text-muted); }
-.device-card .tags { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
-.tag { font-size: 10px; padding: 3px 8px; border-radius: 8px; font-weight: 700; border: 1px solid var(--border); background: var(--surface); }
-.tag.frp { color: #e74c3c; border-color: rgba(231,76,60,.4); }
-.tag.arabic { color: #3498db; border-color: rgba(52,152,219,.4); }
-
-/* ========== السجل ========== */
-.terminal { background: #000; border-radius: var(--radius); padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; height: 350px; overflow-y: auto; border: 1px solid var(--border); direction: ltr; text-align: left; line-height: 1.6; color: #00ff88; }
-.terminal .line { margin-bottom: 4px; word-break: break-all; }
-.terminal .line.error { color: #ff5555; }
-.terminal .line.info { color: #55aaff; }
-.terminal .line.cmd { color: #ffaa00; }
-.terminal .line.system { color: #888; }
-
-/* ========== التنبيهات ========== */
-.alert { padding: 14px 18px; border-radius: var(--radius); font-size: 13px; line-height: 1.8; margin-bottom: 16px; border-right: 4px solid; }
-.alert-danger { background: rgba(231,76,60,.1); border-color: var(--danger); color: #ff9a8f; }
-.alert-warning { background: rgba(243,156,18,.1); border-color: var(--warning); color: #ffd166; }
-.alert-info { background: rgba(52,152,219,.1); border-color: var(--info); color: #7dc4e8; }
-.alert-success { background: rgba(0,212,170,.1); border-color: var(--primary); color: #6ee7c8; }
-
-/* ========== الجداول ========== */
-.table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { padding: 12px 16px; text-align: right; border-bottom: 1px solid var(--border); }
-th { background: var(--surface-light); color: var(--primary); font-weight: 700; }
-tr:hover td { background: var(--surface-light); }
-
-/* ========== Modal ========== */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
-.modal-overlay.active { display: flex; }
-.modal { background: var(--surface); border-radius: var(--radius-lg); padding: 24px; max-width: 500px; width: 100%; border: 1px solid var(--border); box-shadow: var(--shadow); max-height: 90vh; overflow-y: auto; }
-.modal h3 { color: var(--primary); margin-bottom: 16px; font-size: 18px; }
-
-/* أدوات مساعدة */
-.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.mt-1 { margin-top: 10px; } .mb-2 { margin-bottom: 20px; }
-.text-muted { color: var(--text-muted); } .text-primary { color: var(--primary); }
-.text-danger { color: var(--danger); } .text-sm { font-size: 13px; }
 </style>
 </head>
 <body data-theme="dark">
 
-<!-- ========== القائمة الجانبية ========== -->
+<!-- القائمة الجانبية -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <svg class="sidebar-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="100" height="100" rx="20" fill="url(#paint0_linear)"/>
-      <path d="M30 35L20 50L30 65" stroke="#0a0e17" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M70 35L80 50L70 65" stroke="#0a0e17" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M55 25L45 75" stroke="#0a0e17" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-      <defs>
-        <linearGradient id="paint0_linear" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#00d4aa"/><stop offset="1" stop-color="#3498db"/>
-        </linearGradient>
-      </defs>
-    </svg>
-    <div class="sidebar-title">نظام برمجة وفك وتعريب<br>شفرات الأجهزة الإلكترونية</div>
-    <div class="sidebar-sub">Unlock Hub Pro v4.0</div>
+    <div class="sidebar-logo">🔓</div>
+    <div class="sidebar-title">نظام برمجة وفك شفرات وتعريب التلفونات</div>
+    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v5.0 Pro Edition</div>
   </div>
   <div class="nav-links">
-    <button class="nav-btn active" onclick="navigate('dashboard',this)">🏠 الرئيسية</button>
-    <button class="nav-btn" onclick="navigate('devices',this)">📱 الأجهزة</button>
-    <button class="nav-btn" onclick="navigate('unlock',this)">🔓 فك القفل (FRP)</button>
-    <button class="nav-btn" onclick="navigate('localization',this)">🌐 التعريب</button>
-    <button class="nav-btn" onclick="navigate('network',this)">📶 الشبكة والاتصالات</button>
-    <button class="nav-btn" onclick="navigate('adb',this)">🛠️ أدوات ADB</button>
-    <button class="nav-btn" onclick="navigate('reset',this)">⚙️ الفرمتة</button>
-    <button class="nav-btn" onclick="navigate('account',this)">👤 حسابي</button>
-    <button class="nav-btn" onclick="navigate('admin',this)" id="adminNavBtn" style="display:none; color:var(--danger); font-weight:800;">🛡️ لوحة التحكم (المشرف)</button>
-    <button class="nav-btn" onclick="navigate('database',this)">🗄️ قاعدة البيانات</button>
-    <button class="nav-btn" onclick="navigate('guide',this)">📖 التعليمات والدليل</button>
-    <button class="nav-btn" onclick="navigate('logs',this)">📜 سجل العمليات</button>
+    <button class="nav-btn active" onclick="navigate('dashboard', this)">🏠 الرئيسية</button>
+    <button class="nav-btn" onclick="navigate('devices', this)">📱 الأجهزة المدعومة</button>
+    <button class="nav-btn" onclick="navigate('unlock', this)">🔓 فك القفل (FRP)</button>
+    <button class="nav-btn" onclick="navigate('localization', this)">🌐 التعريب</button>
+    <button class="nav-btn" onclick="navigate('network', this)">📶 الشبكة</button>
+    <button class="nav-btn" onclick="navigate('account', this)">👤 حسابي</button>
+    <button class="nav-btn" onclick="navigate('admin', this)" id="adminNavBtn" style="display:none; color:var(--danger);">🛡️ لوحة التحكم</button>
+    <button class="nav-btn" onclick="navigate('guide', this)">📖 دليل الاستخدام</button>
+    <button class="nav-btn" onclick="navigate('logs', this)">📜 سجل العمليات</button>
   </div>
-  <div class="sidebar-footer">
+  <div style="padding: 15px; text-align: center; font-size: 11px; border-top: 1px solid var(--border); color: var(--text-muted);">
     تصميم: نشوان البدري<br>📞 771713275
   </div>
 </aside>
 
-<!-- ========== المحتوى الرئيسي ========== -->
+<!-- المحتوى الرئيسي -->
 <div class="main-wrapper">
   <header class="top-bar">
     <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-    <div class="row">
-      <div class="user-badge">
-        <span id="statusDot" style="width:8px;height:8px;border-radius:50%;background:#e74c3c;display:inline-block;"></span>
-        <span id="statusText">غير مسجل</span>
-      </div>
-      <div class="user-badge" id="opsBadge">العمليات: <b id="topOpsLeft">10</b></div>
-    </div>
-    <div class="top-actions">
-      <div class="theme-switch">
-        <button class="theme-btn dark active" onclick="setTheme('dark', this)" title="الوضع الليلي"></button>
-        <button class="theme-btn light" onclick="setTheme('light', this)" title="الوضع الفاتح"></button>
-        <button class="theme-btn cyber" onclick="setTheme('cyber', this)" title="سايبربانك"></button>
-        <button class="theme-btn ocean" onclick="setTheme('ocean', this)" title="المحيط"></button>
-      </div>
+    <div style="font-weight: bold; font-size: 14px;">مرحباً بك</div>
+    <div>
+      <button class="theme-btn active" onclick="setTheme('dark', this)">ليلي</button>
+      <button class="theme-btn" onclick="setTheme('light', this)">فاتح</button>
+      <button class="theme-btn" onclick="setTheme('cyber', this)">سايبر</button>
+      <button class="theme-btn" onclick="setTheme('ocean', this)">محيط</button>
     </div>
   </header>
 
   <div class="app-container">
     
-    <!-- صفحة الرئيسية -->
+    <!-- الرئيسية -->
     <div id="page-dashboard" class="page active">
       <div class="alert alert-info">
-        <strong>مرحباً بك في نظام برمجة وفك وتعريب شفرات الأجهزة الإلكترونية</strong>
-        ابدأ باختيار جهازك من صفحة "الأجهزة" لتفعيل جميع أدوات الفك والتعريب والبرمجة بضغطة زر.
+        <strong>مرحباً بك في نظام برمجة وفك شفرات وتعريب التلفونات</strong>
+        اختر الأداة التي تريد استخدامها من القائمة الجانبية.
       </div>
-      <div class="grid-4 mb-2">
-        <div class="stat-card"><div class="stat-label">الأجهزة المدعومة</div><div class="stat-value" id="statDevices">0</div></div>
-        <div class="stat-card info"><div class="stat-label">الجهاز المحدد</div><div class="stat-value" id="statSelected" style="font-size:16px;">لا يوجد</div></div>
-        <div class="stat-card warning"><div class="stat-label">العمليات المتبقية</div><div class="stat-value" id="statOpsLeft">10</div></div>
-        <div class="stat-card danger"><div class="stat-label">حالة الحساب</div><div class="stat-value" id="statAccStatus" style="font-size:16px;">غير مسجل</div></div>
-      </div>
-      
       <div class="card">
-        <div class="card-header"><h2>⚡ إجراءات سريعة</h2></div>
-        <div class="grid-3">
-          <button class="btn btn-danger btn-block" onclick="navigate('unlock',document.querySelectorAll('.nav-btn')[2])">🔓 فك FRP</button>
-          <button class="btn btn-info btn-block" onclick="navigate('localization',document.querySelectorAll('.nav-btn')[3])">🌐 تعريب الجهاز</button>
-          <button class="btn btn-warning btn-block" onclick="navigate('network',document.querySelectorAll('.nav-btn')[4])">📶 تفعيل 3G</button>
-          <button class="btn btn-primary btn-block" onclick="navigate('devices',document.querySelectorAll('.nav-btn')[1])">📱 اختيار جهاز</button>
-          <button class="btn btn-purple btn-block" onclick="navigate('adb',document.querySelectorAll('.nav-btn')[5])">🛠️ أدوات ADB</button>
-          <button class="btn btn-ghost btn-block" onclick="navigate('guide',document.querySelectorAll('.nav-btn')[10])">📖 الدليل الشامل</button>
+        <div class="card-title">إحصائيات النظام</div>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+          <div style="flex:1; background: var(--surface-light); padding: 15px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 12px; color: var(--text-muted);">الأجهزة المدعومة</div>
+            <div style="font-size: 20px; font-weight: bold; color: var(--primary);" id="totalDevices">0</div>
+          </div>
+          <div style="flex:1; background: var(--surface-light); padding: 15px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 12px; color: var(--text-muted);">حالة الحساب</div>
+            <div style="font-size: 20px; font-weight: bold; color: var(--warning);" id="accStatus">غير مسجل</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- صفحة الأجهزة -->
+    <!-- الأجهزة -->
     <div id="page-devices" class="page">
       <div class="card">
-        <div class="card-header"><h2>📱 اختيار الجهاز</h2></div>
-        <div class="grid-2">
-          <div class="form-group"><label>الماركة</label>
-            <select class="form-control" id="brandFilter" onchange="renderDeviceGrid()">
-              <option value="all">جميع الماركات</option>
-            </select>
-          </div>
-          <div class="form-group"><label>بحث بالاسم</label>
-            <input class="form-control" id="searchFilter" placeholder="اكتب اسم الموديل..." oninput="renderDeviceGrid()">
-          </div>
+        <div class="card-title">📱 قاعدة بيانات الأجهزة (شاملة)</div>
+        <input type="text" id="searchDevice" class="form-control mb-2" placeholder="ابحث عن ماركة أو موديل..." oninput="filterDevices()">
+        <div id="deviceList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: 400px; overflow-y: auto;">
+          <!-- سيتم توليدها بالجافاسكربت -->
         </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><h2>الأجهزة المتاحة (<span id="deviceCount">0</span>)</h2></div>
-        <div class="grid-3" id="deviceGrid"></div>
       </div>
     </div>
 
-    <!-- صفحة فك القفل FRP -->
+    <!-- فك القفل المدمج -->
     <div id="page-unlock" class="page">
-      <div class="alert alert-danger"><strong>⚠️ تنبيه هام</strong> جميع العمليات هنا مخصصة للأجهزة التي تملكها أو لديك تصريح من مالكها.</div>
-      
+      <div class="alert alert-danger">⚠️ استخدم الأدوات على الأجهزة التي تملكها فقط.</div>
       <div class="card">
-        <h2>🔓 فك وتخطي حساب جوجل (FRP Bypass)</h2>
-        <div class="form-group">
-          <label>اختر طريقة الفك</label>
-          <select class="form-control" id="frpMethod">
-            <option value="samsung">أجهزة سامسونج (Android 6 - 15)</option>
-            <option value="universal">أجهزة عامة (MTK / SPD) - Android 6 - 15</option>
-            <option value="android16">أجهزة الأندرويد 16 (يتطلب Sigma/UMT)</option>
-          </select>
+        <div class="card-title">🔓 فك وتخطي حساب جوجل (FRP)</div>
+        <div class="action-grid">
+          <button class="action-btn btn-frp" onclick="runCmd('FRP Samsung')">فك سامسونج (Android 6-15)</button>
+          <button class="action-btn btn-frp" onclick="runCmd('FRP Universal')">فك عام (MTK/SPD)</button>
+          <button class="action-btn btn-frp" onclick="runCmd('FRP Android 16')">فك أندرويد 16</button>
         </div>
-        <button class="btn btn-danger btn-block" onclick="executeFRP()">🚀 تنفيذ فك FRP</button>
-        <div class="cmd-block mt-1" id="frpCmd"><button class="copy-btn" onclick="copyCmd('frpCmdContent')">📋</button><div id="frpCmdContent"></div></div>
-      </div>
-
-      <div class="card">
-        <h2>🔒 إزالة قفل الشاشة (PIN/Pattern)</h2>
-        <div class="alert alert-warning">هذه الميزة تتطلب روت (Root) أو وضع Test Point. استخدمها بحذر.</div>
-        <button class="btn btn-warning btn-block" onclick="executeScreenLockRemoval()">🔓 إزالة القفل</button>
-      </div>
-
-      <div class="card">
-        <h2>🔑 فك شفرة الشبكة (SIM Unlock)</h2>
-        <div class="alert alert-info">يتطلب وضع Download Mode وأدوات مثل Octoplus أو Chimera. التطبيق هنا يوجهك للخطوات.</div>
-        <button class="btn btn-warning btn-block" onclick="executeSIMUnlock()">🔑 فك شفرة الشبكة</button>
+        <button class="action-btn btn-arabic" style="width:100%" onclick="runCmd('Screen Lock')">🔒 إزالة قفل الشاشة (PIN/Pattern)</button>
       </div>
     </div>
 
-    <!-- صفحة التعريب -->
+    <!-- التعريب -->
     <div id="page-localization" class="page">
       <div class="card">
-        <h2>🌐 تعريب الجهاز</h2>
-        <div class="grid-2">
-          <div class="form-group"><label>إصدار الأندرويد</label>
-            <select class="form-control" id="androidVersion" onchange="updateLocInfo()">
-              <option value="6-9">أندرويد 6 – 9</option>
-              <option value="10-13">أندرويد 10 – 13</option>
-              <option value="14-15">أندرويد 14 – 15</option>
-              <option value="16">أندرويد 16</option>
-            </select>
-          </div>
-          <div class="form-group"><label>الدولة</label>
-            <select class="form-control" id="countryCode">
-              <option value="SA">السعودية</option><option value="YE">اليمن</option>
-              <option value="EG">مصر</option><option value="AE">الإمارات</option>
-              <option value="JO">الأردن</option><option value="IQ">العراق</option>
-              <option value="KW">الكويت</option><option value="QA">قطر</option>
-              <option value="OM">عمان</option><option value="BH">البحرين</option>
-              <option value="MA">المغرب</option><option value="DZ">الجزائر</option>
-              <option value="TN">تونس</option><option value="SD">السودان</option>
-              <option value="LB">لبنان</option><option value="SY">سوريا</option>
-              <option value="PS">فلسطين</option><option value="LY">ليبيا</option>
-            </select>
-          </div>
-        </div>
-        <div class="alert alert-info" id="locInfo">الطريقة: <span id="locMethod">setprop (6-9)</span></div>
-        <button class="btn btn-info btn-block" onclick="executeLocalization()">🌐 تطبيق التعريب</button>
-        <div class="cmd-block" id="locCmd"><button class="copy-btn" onclick="copyCmd('locCmdContent')">📋</button><div id="locCmdContent"></div></div>
-      </div>
-      <div class="card">
-        <h2>⚠️ حل مشكلة "التعريب يرجع إنجليزي"</h2>
-        <div class="text-sm" style="line-height:2;color:var(--text-muted)">
-          <p>1. الروم لا يحتوي ملفات اللغة العربية ← قم بفلاش روم أو CSC يحتوي على العربية.</p>
-          <p>2. أمر <code>setprop</code> لا يُحفظ بعد إعادة التشغيل ← استخدم <code>settings put system_locales</code>.</p>
-          <p>3. واجهة One UI تفرض الإنجليزية في البداية ← تخطى إعدادات الترحيب أولاً.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- صفحة الشبكة -->
-    <div id="page-network" class="page">
-      <div class="card">
-        <h2>📶 وضع الشبكة</h2>
-        <div class="form-group"><label>اختر الوضع المطلوب</label>
-          <select class="form-control" id="networkMode">
-            <option value="9">3G فقط (WCDMA)</option>
-            <option value="1">2G فقط (GSM)</option>
-            <option value="12">تلقائي (LTE/GSM/WCDMA)</option>
+        <div class="card-title">🌐 تعريب الجهاز</div>
+        <div class="form-group">
+          <label>إصدار الأندرويد</label>
+          <select class="form-control" id="androidVer">
+            <option value="6-9">أندرويد 6 - 9 (setprop)</option>
+            <option value="10-13">أندرويد 10 - 13 (MoreLocale)</option>
+            <option value="14-16">أندرويد 14 - 16 (system_locales)</option>
           </select>
         </div>
-        <button class="btn btn-primary btn-block" onclick="executeNetworkMode()">📶 تطبيق الوضع</button>
-      </div>
-      <div class="card">
-        <h2>🔄 تحويل Sprint إلى GSM</h2>
-        <div class="alert alert-warning">مفيد لأجهزة Sprint الأمريكية لتعمل على شبكات اليمن موبايل وغيرها.</div>
-        <button class="btn btn-warning btn-block" onclick="executeSprintToGSM()">🔄 بدء التحويل</button>
+        <button class="action-btn btn-arabic" style="width:100%" onclick="runCmd('Arabize')">تطبيق التعريب</button>
       </div>
     </div>
 
-    <!-- صفحة ADB -->
-    <div id="page-adb" class="page">
+    <!-- الشبكة -->
+    <div id="page-network" class="page">
       <div class="card">
-        <h2>🛠️ أوامر ADB السريعة</h2>
-        <div class="grid-3 mb-2">
-          <button class="btn btn-ghost" onclick="runAdbSim('adb devices -l')">فحص الأجهزة</button>
-          <button class="btn btn-ghost" onclick="runAdbSim('adb shell getprop ro.product.model')">اسم الموديل</button>
-          <button class="btn btn-ghost" onclick="runAdbSim('adb reboot bootloader')">دخول Fastboot</button>
-        </div>
-        <div class="row">
-          <input class="form-control" id="customCmd" placeholder="adb shell ..." style="flex:1">
-          <button class="btn btn-primary" onclick="executeCustomCmd()">تنفيذ</button>
+        <div class="card-title">📶 إعدادات الشبكة</div>
+        <div class="action-grid">
+          <button class="action-btn btn-3g" onclick="runCmd('3G')">تفعيل 3G (WCDMA)</button>
+          <button class="action-btn btn-network" onclick="runCmd('GSM')">تحويل إلى GSM</button>
+          <button class="action-btn btn-network" onclick="runCmd('CSC')">تغيير CSC (سامسونج)</button>
         </div>
       </div>
     </div>
 
-    <!-- صفحة الفرمتة -->
-    <div id="page-reset" class="page">
-      <div class="alert alert-danger"><strong>تحذير:</strong> الفرمتة تمسح جميع البيانات ولا يمكن التراجع عنها.</div>
-      <div class="card">
-        <h2>⚙️ خيارات الفرمتة</h2>
-        <div class="grid-2">
-          <button class="btn btn-danger" onclick="executeFactoryReset('adb')">فرمتة عبر ADB</button>
-          <button class="btn btn-warning" onclick="executeFactoryReset('fastboot')">فرمتة Fastboot</button>
-          <button class="btn btn-info" onclick="executeFactoryReset('recovery')">تعليمات Recovery</button>
-          <button class="btn btn-purple" onclick="executeFactoryReset('frp')">فرمتة + مسح FRP</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- صفحة حسابي -->
+    <!-- حسابي -->
     <div id="page-account" class="page">
-      <div class="card" id="authCard">
-        <h2>👤 تسجيل الدخول / إنشاء حساب</h2>
-        <div class="alert alert-info">أول 10 عمليات مجانية. لاحقاً يتطلب تفعيل الاشتراك.</div>
-        <div class="grid-2">
-          <div class="form-group"><label>الاسم الكامل</label><input class="form-control" id="authName" placeholder="اسمك"></div>
-          <div class="form-group"><label>رقم الهاتف</label><input class="form-control" id="authPhone" placeholder="7xxxxxxxx" dir="ltr"></div>
-        </div>
-        <div class="form-group"><label>البريد الإلكتروني</label><input class="form-control" id="authEmail" type="email" placeholder="you@example.com" dir="ltr"></div>
-        <div class="form-group"><label>كلمة المرور</label><input class="form-control" id="authPassword" type="password" placeholder="6 أحرف على الأقل" dir="ltr"></div>
-        <div class="row">
-          <button class="btn btn-primary" onclick="signUp()">📝 إنشاء حساب</button>
-          <button class="btn btn-ghost" onclick="signIn()">🔑 تسجيل دخول</button>
-          <button class="btn btn-danger" onclick="signOutUser()">🚪 خروج</button>
-        </div>
+      <div class="card" id="authBox">
+        <div class="card-title">👤 تسجيل الدخول</div>
+        <input type="email" id="email" class="form-control mb-1" placeholder="البريد الإلكتروني">
+        <input type="password" id="password" class="form-control mb-1" placeholder="كلمة المرور">
+        <button class="action-btn btn-arabic" style="width:100%" onclick="login()">دخول / إنشاء حساب</button>
+        <button class="action-btn btn-network mt-2" style="width:100%" onclick="auth.signOut()">تسجيل خروج</button>
       </div>
-
-      <div class="card" id="profileCard" style="display:none;">
-        <h2>📋 معلومات حسابك</h2>
-        <div class="grid-2">
-          <div><span class="text-muted">الاسم:</span> <b id="profName">-</b></div>
-          <div><span class="text-muted">الهاتف:</span> <b id="profPhone">-</b></div>
-          <div><span class="text-muted">العمليات المتبقية:</span> <b id="profOpsLeft" class="text-primary">-</b></div>
-          <div><span class="text-muted">الاشتراك:</span> <b id="profSubStatus">-</b></div>
-        </div>
-        <div class="alert alert-warning mt-1" id="subCard">
-          <strong>تفعيل الاشتراك السنوي (30$)</strong>
-          تواصل مع المصمم نشوان البدري (771713275) للدفع وتفعيل حسابك.
-          <button class="btn btn-warning btn-sm mt-1" onclick="requestSubscription()">📩 طلب تفعيل</button>
-        </div>
+      <div class="card" id="profileBox" style="display:none;">
+        <div class="card-title">معلومات الحساب</div>
+        <p>الاسم: <b id="pName">-</b></p>
+        <p>البريد: <b id="pEmail">-</b></p>
+        <p>العمليات المتبقية: <b id="pOps" style="color:var(--primary)">-</b></p>
+        <p>حالة الاشتراك: <b id="pSub" style="color:var(--warning)">-</b></p>
+        <button class="action-btn btn-3g mt-2" style="width:100%" onclick="requestSub()">طلب تفعيل اشتراك (30$)</button>
       </div>
     </div>
 
-    <!-- لوحة تحكم المشرف -->
+    <!-- لوحة التحكم (Admin) -->
     <div id="page-admin" class="page">
       <div class="card">
-        <h2>🛡️ لوحة تحكم المشرف</h2>
-        <div class="alert alert-info">مرحباً بك أيها المدير. من هنا يمكنك التحكم في اشتراكات جميع المستخدمين.</div>
-        <button class="btn btn-primary" onclick="loadAllUsers()">🔄 تحديث قائمة المستخدمين</button>
-      </div>
-      <div class="card">
-        <h2>👥 المستخدمين المسجلين</h2>
+        <div class="card-title">🛡️ إدارة المستخدمين والاشتراكات</div>
+        <button class="action-btn btn-arabic mb-2" onclick="loadUsers()">🔄 تحديث القائمة</button>
         <div class="table-wrap">
           <table>
-            <thead><tr>
-              <th>الاسم</th><th>الهاتف</th><th>البريد</th><th>العمليات</th><th>الاشتراك</th><th>إجراء</th>
-            </tr></thead>
-            <tbody id="usersTableBody"><tr><td colspan="6" class="text-muted">اضغط تحديث لرؤية المستخدمين</td></tr></tbody>
+            <thead><tr><th>الاسم</th><th>البريد</th><th>العمليات</th><th>الاشتراك</th><th>إجراء</th></tr></thead>
+            <tbody id="usersTable"><tr><td colspan="5" style="text-align:center;">اضغط تحديث</td></tr></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- صفحة قاعدة البيانات -->
-    <div id="page-database" class="page">
-      <div class="card">
-        <h2>🗄️ إدارة قاعدة بيانات الأجهزة</h2>
-        <p class="text-sm text-muted mb-2">يمكنك تصدير الأجهزة كملف JSON، أو استيراد ملف جديد لإضافة أجهزة دفعة واحدة.</p>
-        <div class="row mb-2">
-          <button class="btn btn-primary" onclick="exportDatabase()">📤 تصدير JSON</button>
-          <button class="btn btn-info" onclick="document.getElementById('importFile').click()">📥 استيراد JSON</button>
-          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importDatabase(event)">
-          <button class="btn btn-danger" onclick="resetDatabase()">🔄 إعادة تعيين</button>
-        </div>
-        <div class="form-group">
-          <label>إضافة جهاز جديد (يدوياً)</label>
-          <div class="row">
-            <input class="form-control" id="newBrand" placeholder="الماركة (مثال: Samsung)" style="flex:1">
-            <input class="form-control" id="newModel" placeholder="الموديل (مثال: S24)" style="flex:1">
-            <button class="btn btn-primary" onclick="addDevice()">➕ إضافة</button>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>الماركة</th><th>الموديل</th><th>إجراء</th></tr></thead>
-            <tbody id="deviceTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- صفحة التعليمات -->
+    <!-- دليل الاستخدام -->
     <div id="page-guide" class="page">
       <div class="card">
-        <h2>📖 الدليل الشامل لاستخدام التطبيق</h2>
-        <div style="line-height:2; font-size:14px; color:var(--text-muted);">
-          <h3 class="text-primary mb-1">1. كيف تبدأ؟</h3>
-          <p>قم بتوصيل الهاتف بالكمبيوتر عبر كابل USB أصلي. تأكد من تفعيل "تصحيح أخطاء USB" من خيارات المطور في الهاتف.</p>
+        <div class="card-title">📖 دليل الاستخدام الشامل</div>
+        <div style="font-size: 13px; line-height: 1.8; color: var(--text-muted);">
+          <h3 style="color:var(--primary); margin:10px 0 5px;">1. كيف يعمل النظام؟</h3>
+          <p>هذا النظام عبارة عن واجهة تحكم. لتنفيذ العمليات فعلياً على الهواتف، يجب تثبيت نسخة الكمبيوتر (Desktop App) وربط الهاتف عبر USB.</p>
           
-          <h3 class="text-primary mb-1">2. استخدام قاعدة البيانات (التصدير والاستيراد)</h3>
-          <p>في صفحة "قاعدة البيانات"، يمكنك إضافة أجهزة جديدة يدوياً. ميزة **التصدير** تسمح لك بحفظ قائمة أجهزتك في ملف JSON على جهازك. ميزة **الاستيراد** تسمح لك بتحميل ملف JSON يحتوي على مئات الأجهزة دفعة واحدة (مفيد عند تحديث التطبيق).</p>
+          <h3 style="color:var(--primary); margin:10px 0 5px;">2. إدارة الحسابات والاشتراكات</h3>
+          <p>يجب على العميل تسجيل حساب. سيحصل على 10 عمليات تجريبية. بعد انتهائها، يضغط على "طلب تفعيل اشتراك"، ويقوم المدير (أنت) بتفعيل حسابه من لوحة التحكم لمدة سنة كاملة.</p>
           
-          <h3 class="text-primary mb-1">3. نظام الحسابات والاشتراك</h3>
-          <p>سجل حساباً جديداً من صفحة "حسابي". ستحصل على **10 عمليات مجانية**. بعد انتهائها، يجب عليك دفع 30$ (اشتراك سنوي) للمصمم (771713275) ليتم تفعيل حسابك.</p>
-          
-          <h3 class="text-primary mb-1">4. حساب المشرف (Admin)</h3>
-          <p>إذا كنت أنت المدير (sgeanashwan@gmail.com)، سيظهر لك زر "لوحة التحكم" في القائمة. اضغط عليه لتجد جدولاً بكل المستخدمين. يمكنك الضغط على زر "تفعيل" بجانب أي مستخدم لتفعيل اشتراكه لمدة سنة كاملة.</p>
-          
-          <h3 class="text-primary mb-1">5. لماذا بعض العمليات لا تعمل؟</h3>
-          <p>إذا كنت تستخدم النسخة العادية على المتصفح، فهي تحاكي الأوامر فقط. لتنفيذها فعلياً، يجب استخدام نسخة الكمبيوتر (Desktop) التي قمنا ببنائها باستخدام Tauri وربطها بأوامر ADB.</p>
+          <h3 style="color:var(--primary); margin:10px 0 5px;">3. دعم الأجهزة</h3>
+          <p>القاعدة تدعم أكثر من 15 ماركة عالمية (Apple, Samsung, Xiaomi, Oppo, Vivo, Realme, OnePlus, Google, Nokia, Honor, Itel, Lenovo, Sony, Huawei).</p>
         </div>
       </div>
     </div>
 
-    <!-- صفحة السجل -->
+    <!-- السجل -->
     <div id="page-logs" class="page">
       <div class="card">
-        <div class="card-header">
-          <h2>📜 سجل العمليات المباشر</h2>
-          <button class="btn btn-danger btn-sm" onclick="clearLogs()">🗑️ مسح</button>
-        </div>
-        <div class="terminal" id="terminal">
-          <div class="line system">[System] Unlock Hub Pro v4.0 initialized...</div>
-        </div>
+        <div class="card-title">📜 سجل العمليات</div>
+        <div class="terminal" id="terminal">[System] جاهز...</div>
       </div>
     </div>
 
-  </div>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <h3 id="modalTitle">تأكيد</h3>
-    <p id="modalMessage" class="text-sm" style="line-height:1.8;color:var(--text-muted)"></p>
-    <div class="row mt-2" style="justify-content:flex-end">
-      <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>
-      <button class="btn btn-danger" id="modalConfirmBtn">تأكيد</button>
-    </div>
   </div>
 </div>
 
 <script>
-/* ============================================================
-   Firebase Config
-   ============================================================ */
+/* =========================================
+   1. إعدادات Firebase والمدير
+   ========================================= */
 const firebaseConfig = {
   apiKey: "AIzaSyCy0tMUMSkc8kncsB5bO3jYzzVQqzsCTC4",
   authDomain: "unlock-hub-p.firebaseapp.com",
@@ -554,391 +299,179 @@ const firebaseConfig = {
   messagingSenderId: "582014234037",
   appId: "1:582014234037:web:69dc35370307a0600bfdfc"
 };
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+const ADMIN_EMAIL = "sgeanashwan@gmail.com"; // حسابك كمدير
 
-const ADMIN_EMAIL = "sgeanashwan@gmail.com"; // المشرف
-
-let firebaseApp, auth, database;
-let currentUser = null;
-let userData = null;
-
-firebaseApp = firebase.initializeApp(firebaseConfig);
-auth = firebase.auth();
-database = firebase.database();
-
-/* ============================================================
-   الثيمات (Themes)
-   ============================================================ */
-function setTheme(theme, btn) {
-  document.body.setAttribute('data-theme', theme);
-  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  localStorage.setItem('app_theme', theme);
-}
-window.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('app_theme') || 'dark';
-  document.body.setAttribute('data-theme', savedTheme);
-  const btns = document.querySelectorAll('.theme-btn');
-  btns.forEach(b => b.classList.remove('active'));
-  const activeBtn = Array.from(btns).find(b => b.classList.contains(savedTheme));
-  if(activeBtn) activeBtn.classList.add('active');
-});
-
-/* ============================================================
-   التنقل والصفحات
-   ============================================================ */
-function navigate(pageId, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const page = document.getElementById('page-' + pageId);
-  if (page) page.classList.add('active');
-  if (btn) btn.classList.add('active');
-  
-  if(window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.remove('open');
-  }
-
-  if (pageId === 'devices') renderDeviceGrid();
-  if (pageId === 'database') refreshDeviceTable();
-  if (pageId === 'account') refreshAccountUI();
-  if (pageId === 'admin') loadAllUsers();
-  if (pageId === 'dashboard') updateStats();
-}
-
-/* ============================================================
-   قاعدة بيانات الأجهزة
-   ============================================================ */
-const DB_KEY = 'unlockhub_devices_v4';
-const DEFAULT_DEVICES = [
-  {brand:'Samsung',model:'Galaxy S24 Ultra',os:'Android 14'},
-  {brand:'Samsung',model:'Galaxy S23',os:'Android 13/14'},
-  {brand:'Samsung',model:'Galaxy S21 5G',os:'Android 11-13'},
-  {brand:'Samsung',model:'Galaxy A54 5G',os:'Android 13/14'},
-  {brand:'Samsung',model:'Galaxy A14',os:'Android 13'},
-  {brand:'Samsung',model:'Galaxy J3 Sprint',os:'Android 7'},
-  {brand:'Samsung',model:'Galaxy Z Fold 5',os:'Android 13/14'},
-  {brand:'Huawei',model:'P60 Pro',os:'EMUI 13.1'},
-  {brand:'Huawei',model:'Mate 50 Pro',os:'EMUI 13'},
-  {brand:'Huawei',model:'Nova 11',os:'EMUI 13'},
-  {brand:'Xiaomi',model:'Xiaomi 14 Ultra',os:'HyperOS'},
-  {brand:'Xiaomi',model:'Redmi Note 13 Pro',os:'MIUI 14'},
-  {brand:'Xiaomi',model:'Redmi 13C',os:'MIUI 14'},
-  {brand:'Xiaomi',model:'POCO X6 Pro',os:'HyperOS'},
-  {brand:'OPPO',model:'Find X7 Ultra',os:'ColorOS 14'},
-  {brand:'OPPO',model:'Reno 11',os:'ColorOS 14'},
-  {brand:'vivo',model:'X100 Pro',os:'Funtouch 14'},
-  {brand:'Realme',model:'GT 5 Pro',os:'Realme UI 5'},
-  {brand:'OnePlus',model:'OnePlus 12',os:'OxygenOS 14'},
-  {brand:'Google',model:'Pixel 8 Pro',os:'Android 14'},
-  {brand:'Google',model:'Pixel 7a',os:'Android 13/14'},
-  {brand:'Sony',model:'Xperia 1 V',os:'Android 13'},
-  {brand:'Nokia',model:'X30',os:'Android 13'},
-  {brand:'Motorola',model:'Edge 50 Pro',os:'Android 14'},
-  {brand:'Tecno',model:'Camon 30',os:'HiOS 14'},
-  {brand:'Infinix',model:'Note 40',os:'XOS 14'},
-  {brand:'Nothing',model:'Phone (2)',os:'Nothing OS 2.0'},
-  {brand:'LG',model:'V60 ThinQ',os:'Android 12'}
+/* =========================================
+   2. قاعدة بيانات الأجهزة الضخمة
+   ========================================= */
+const devicesDB = [
+  "Apple iPhone 15 Pro Max", "Apple iPhone 14", "Apple iPhone 13", "Apple iPhone 12", "Apple iPhone 11",
+  "Samsung Galaxy S24 Ultra", "Samsung Galaxy S23", "Samsung Galaxy S22", "Samsung Galaxy S21", "Samsung Galaxy A54", "Samsung Galaxy A34", "Samsung Galaxy A14", "Samsung Galaxy Z Fold 5",
+  "Xiaomi 14 Ultra", "Xiaomi Redmi Note 13", "Xiaomi Redmi 12", "Xiaomi POCO X6 Pro",
+  "Huawei P60 Pro", "Huawei Mate 50", "Huawei Nova 11",
+  "Oppo Find X7", "Oppo Reno 11", "Oppo A78",
+  "Vivo X100 Pro", "Vivo V30", "Vivo Y36",
+  "Realme GT 5 Pro", "Realme 12 Pro+", "Realme C67",
+  "OnePlus 12", "OnePlus Nord CE 4",
+  "Google Pixel 8 Pro", "Google Pixel 7a",
+  "Honor Magic 6 Pro", "Honor X9b",
+  "Motorola Edge 50 Pro", "Motorola G84",
+  "Nokia X30", "Nokia G42",
+  "Itel S24", "Itel A70",
+  "Lenovo Legion Y70", "Lenovo K14",
+  "Sony Xperia 1 V", "Sony Xperia 10 V",
+  "Tecno Camon 30", "Infinix Note 40", "ZTE Axon 50"
 ];
 
-let devices = [];
-
-function loadDatabase() {
-  const saved = localStorage.getItem(DB_KEY);
-  devices = saved ? JSON.parse(saved) : [...DEFAULT_DEVICES];
-  if (!saved) saveDatabase();
-  updateStats();
-}
-function saveDatabase() {
-  localStorage.setItem(DB_KEY, JSON.stringify(devices));
-  updateStats();
-}
-function updateStats() {
-  const el = document.getElementById('statDevices');
-  if (el) el.textContent = devices.length;
-  const dc = document.getElementById('deviceCount');
-  if (dc) dc.textContent = devices.length;
-  refreshBrandFilter();
-  refreshDeviceTable();
-}
-function refreshBrandFilter() {
-  const sel = document.getElementById('brandFilter');
-  if (!sel) return;
-  const current = sel.value;
-  const brands = [...new Set(devices.map(d => d.brand))].sort();
-  sel.innerHTML = '<option value="all">جميع الماركات</option>' + brands.map(b => `<option value="${b}">${b}</option>`).join('');
-  if (brands.includes(current)) sel.value = current;
-}
-function renderDeviceGrid() {
-  const grid = document.getElementById('deviceGrid');
-  if (!grid) return;
-  const brand = document.getElementById('brandFilter').value;
-  const search = document.getElementById('searchFilter').value.toLowerCase();
-  const filtered = devices.filter(d => {
-    if (brand !== 'all' && d.brand !== brand) return false;
-    if (search && !d.model.toLowerCase().includes(search) && !d.brand.toLowerCase().includes(search)) return false;
-    return true;
-  });
-  document.getElementById('deviceCount').textContent = filtered.length;
-  grid.innerHTML = filtered.map(d => `
-    <div class="device-card" onclick="selectDeviceByName('${d.model.replace(/'/g, "\\'")}')">
-      <div class="model">${d.model}</div>
-      <div class="brand">${d.brand} • ${d.os}</div>
-      <div class="tags"><span class="tag frp">FRP</span><span class="tag arabic">تعريب</span></div>
+function loadDevices() {
+  document.getElementById('totalDevices').innerText = devicesDB.length;
+  const list = document.getElementById('deviceList');
+  list.innerHTML = devicesDB.map(d => `
+    <div style="background:var(--surface-light); padding:8px; border-radius:6px; border:1px solid var(--border); font-size:11px; text-align:center;">
+      ${d}
     </div>
   `).join('');
 }
-function selectDeviceByName(name) {
-  const d = devices.find(x => x.model === name);
-  if (!d) return;
-  document.getElementById('statSelected').textContent = d.model;
-  addLog(`[Select] تم تحديد جهاز: ${d.brand} ${d.model}`, 'info');
+loadDevices();
+
+function filterDevices() {
+  const q = document.getElementById('searchDevice').value.toLowerCase();
+  const list = document.getElementById('deviceList');
+  const filtered = devicesDB.filter(d => d.toLowerCase().includes(q));
+  list.innerHTML = filtered.map(d => `
+    <div style="background:var(--surface-light); padding:8px; border-radius:6px; border:1px solid var(--border); font-size:11px; text-align:center;">
+      ${d}
+    </div>
+  `).join('');
 }
 
-/* ============================================================
-   المصادقة (Auth) والاشتراكات
-   ============================================================ */
-async function signUp() {
-  const name = document.getElementById('authName').value.trim();
-  const phone = document.getElementById('authPhone').value.trim();
-  const email = document.getElementById('authEmail').value.trim();
-  const password = document.getElementById('authPassword').value;
-  if (!name || !phone || !email || !password) { alert('املأ كل الحقول'); return; }
-  try {
-    const cred = await auth.createUserWithEmailAndPassword(email, password);
-    await database.ref('users/' + cred.user.uid).set({
-      name, phone, email, operations: 0, subscription: 'free', subscriptionExpiry: null, createdAt: Date.now()
+/* =========================================
+   3. التنقل والثيمات
+   ========================================= */
+function navigate(pageId, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  btn.classList.add('active');
+  if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+  if(pageId === 'admin') loadUsers();
+}
+
+function setTheme(theme, btn) {
+  document.body.setAttribute('data-theme', theme);
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* =========================================
+   4. المصادقة والاشتراكات (Auth)
+   ========================================= */
+function login() {
+  const email = document.getElementById('email').value;
+  const pass = document.getElementById('password').value;
+  auth.signInWithEmailAndPassword(email, pass)
+    .catch(err => {
+      // إذا لم يوجد الحساب، قم بإنشائه
+      if(err.code === 'auth/user-not-found') {
+        auth.createUserWithEmailAndPassword(email, pass).then(cred => {
+          db.ref('users/' + cred.user.uid).set({
+            email: email, name: email.split('@')[0], operations: 0, subscription: 'free', expiry: null
+          });
+        }).catch(e => alert(e.message));
+      } else {
+        alert(err.message);
+      }
     });
-    alert('تم إنشاء الحساب بنجاح');
-  } catch (e) { alert('خطأ: ' + e.message); }
 }
 
-async function signIn() {
-  const email = document.getElementById('authEmail').value.trim();
-  const password = document.getElementById('authPassword').value;
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-  } catch (e) { alert('خطأ: ' + e.message); }
-}
+auth.onAuthStateChanged(user => {
+  if(user) {
+    document.getElementById('authBox').style.display = 'none';
+    document.getElementById('profileBox').style.display = 'block';
+    document.getElementById('pEmail').innerText = user.email;
+    
+    db.ref('users/' + user.uid).on('value', snap => {
+      const data = snap.val() || {};
+      document.getElementById('pName').innerText = data.name || '-';
+      const opsLeft = Math.max(0, 10 - (data.operations || 0));
+      document.getElementById('pOps').innerText = opsLeft;
+      document.getElementById('accStatus').innerText = (data.subscription === 'premium') ? 'مشترك' : 'تجريبي';
+      
+      const isSubActive = data.subscription === 'premium' && data.expiry > Date.now();
+      document.getElementById('pSub').innerText = isSubActive ? '✅ نشط' : '❌ غير نشط';
+      document.getElementById('pSub').style.color = isSubActive ? 'var(--primary)' : 'var(--danger)';
+    });
 
-function signOutUser() { auth.signOut(); }
-
-auth.onAuthStateChanged(async (user) => {
-  currentUser = user;
-  if (user) {
-    const snap = await database.ref('users/' + user.uid).once('value');
-    userData = snap.val() || {};
-    document.getElementById('statusDot').style.background = 'var(--primary)';
-    document.getElementById('statusText').textContent = userData.name || 'متصل';
-    if (user.email === ADMIN_EMAIL) {
-      document.getElementById('adminNavBtn').style.display = 'block';
+    // إظهار لوحة التحكم للمدير
+    if(user.email === ADMIN_EMAIL) {
+      document.getElementById('adminNavBtn').style.display = 'flex';
     }
   } else {
-    userData = null;
-    document.getElementById('statusDot').style.background = 'var(--danger)';
-    document.getElementById('statusText').textContent = 'غير مسجل';
+    document.getElementById('authBox').style.display = 'block';
+    document.getElementById('profileBox').style.display = 'none';
+    document.getElementById('accStatus').innerText = 'غير مسجل';
     document.getElementById('adminNavBtn').style.display = 'none';
   }
-  refreshAccountUI();
 });
 
-function refreshAccountUI() {
-  const authCard = document.getElementById('authCard');
-  const profileCard = document.getElementById('profileCard');
-  if (!currentUser) {
-    authCard.style.display = 'block'; profileCard.style.display = 'none';
-    document.getElementById('statAccStatus').textContent = 'غير مسجل';
-    document.getElementById('topOpsLeft').textContent = '0';
-    return;
-  }
-  authCard.style.display = 'none'; profileCard.style.display = 'block';
-  document.getElementById('profName').textContent = userData.name || '-';
-  document.getElementById('profPhone').textContent = userData.phone || '-';
-  const opsLeft = Math.max(0, 10 - (userData.operations || 0));
-  document.getElementById('profOpsLeft').textContent = opsLeft;
-  document.getElementById('statOpsLeft').textContent = opsLeft;
-  document.getElementById('topOpsLeft').textContent = opsLeft;
-  
-  const subActive = userData.subscription === 'premium' && userData.subscriptionExpiry > Date.now();
-  document.getElementById('profSubStatus').textContent = subActive ? '✅ نشط' : '❌ غير نشط';
-  document.getElementById('profSubStatus').style.color = subActive ? 'var(--primary)' : 'var(--danger)';
-  document.getElementById('statAccStatus').textContent = subActive ? 'مشترك' : (opsLeft > 0 ? 'تجريبي' : 'منتهي');
-}
-
-async function requestSubscription() {
-  if (!currentUser) return alert('سجّل دخول أولاً');
-  await database.ref('subscription_requests/' + currentUser.uid).set({
-    name: userData.name, phone: userData.phone, email: currentUser.email, requestedAt: Date.now()
+/* =========================================
+   5. لوحة التحكم (Admin)
+   ========================================= */
+function loadUsers() {
+  const tbody = document.getElementById('usersTable');
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">جاري التحميل...</td></tr>';
+  db.ref('users').once('value').then(snap => {
+    const users = snap.val() || {};
+    const html = Object.keys(users).map(uid => {
+      const u = users[uid];
+      const isActive = u.subscription === 'premium' && u.expiry > Date.now();
+      return `<tr>
+        <td>${u.name || '-'}</td>
+        <td>${u.email}</td>
+        <td>${u.operations || 0}</td>
+        <td style="color:${isActive ? 'var(--primary)' : 'var(--danger)'}">${isActive ? 'نشط' : 'موقوف'}</td>
+        <td><button onclick="toggleSub('${uid}', ${isActive})" style="background:${isActive?'var(--danger)':'var(--primary)'}; color:#000; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">${isActive?'إلغاء':'تفعيل'}</button></td>
+      </tr>`;
+    });
+    tbody.innerHTML = html.length ? html.join('') : '<tr><td colspan="5" style="text-align:center;">لا يوجد مستخدمين</td></tr>';
   });
-  alert('تم إرسال الطلب. سيتواصل معك المصمم 771713275.');
 }
 
-async function checkOperationAllowed() {
-  if (!currentUser) { alert('يجب تسجيل الدخول أولاً'); navigate('account', document.querySelectorAll('.nav-btn')[7]); return false; }
-  const snap = await database.ref('users/' + currentUser.uid).once('value');
-  userData = snap.val() || {};
-  const ops = userData.operations || 0;
-  const subActive = userData.subscription === 'premium' && userData.subscriptionExpiry > Date.now();
-  if (ops >= 10 && !subActive) {
-    alert('انتهت عملياتك المجانية. فعّل الاشتراك السنوي (30$) مع المصمم 771713275.');
-    navigate('account', document.querySelectorAll('.nav-btn')[7]);
-    return false;
+function toggleSub(uid, isActive) {
+  if(isActive) {
+    db.ref('users/' + uid).update({ subscription: 'free', expiry: null });
+  } else {
+    // تفعيل لمدة سنة كاملة
+    db.ref('users/' + uid).update({ subscription: 'premium', expiry: Date.now() + (365 * 24 * 60 * 60 * 1000) });
   }
-  return true;
+  setTimeout(loadUsers, 500);
 }
 
-async function incrementOperation() {
-  if (!currentUser) return;
-  await database.ref('users/' + currentUser.uid + '/operations').transaction(v => (v || 0) + 1);
-  const snap = await database.ref('users/' + currentUser.uid).once('value');
-  userData = snap.val();
-  refreshAccountUI();
+/* =========================================
+   6. تنفيذ العمليات (للمتصفح)
+   ========================================= */
+function runCmd(action) {
+  const term = document.getElementById('terminal');
+  term.innerHTML += `<div style="color:#ffaa00;">[CMD] Preparing: ${action}...</div>`;
+  term.scrollTop = term.scrollHeight;
+  
+  setTimeout(() => {
+    term.innerHTML += `<div>[Success] ${action} simulated successfully.</div>`;
+    term.scrollTop = term.scrollHeight;
+  }, 1000);
 }
 
-/* ============================================================
-   لوحة المشرف (Admin)
-   ============================================================ */
-async function loadAllUsers() {
-  if (!currentUser || currentUser.email !== ADMIN_EMAIL) return alert('غير مصرح');
-  const tbody = document.getElementById('usersTableBody');
-  tbody.innerHTML = '<tr><td colspan="6" class="text-muted">جاري التحميل...</td></tr>';
-  const snap = await database.ref('users').once('value');
-  const users = snap.val() || {};
-  const rows = Object.entries(users).map(([uid, u]) => {
-    const subActive = u.subscription === 'premium' && u.subscriptionExpiry > Date.now();
-    return `<tr>
-      <td>${u.name || '-'}</td><td>${u.phone || '-'}</td><td>${u.email || '-'}</td><td>${u.operations || 0}</td>
-      <td>${subActive ? '<span style="color:var(--primary)">نشط</span>' : '<span style="color:var(--danger)">غير نشط</span>'}</td>
-      <td><button class="btn btn-sm ${subActive ? 'btn-danger' : 'btn-primary'}" onclick="toggleSub('${uid}', ${subActive})">${subActive ? 'إلغاء' : 'تفعيل'}</button></td>
-    </tr>`;
+function requestSub() {
+  const user = auth.currentUser;
+  if(!user) return;
+  db.ref('subscription_requests/' + user.uid).set({
+    email: user.email, requestedAt: Date.now()
   });
-  tbody.innerHTML = rows.length ? rows.join('') : '<tr><td colspan="6">لا يوجد مستخدمين</td></tr>';
+  alert('تم إرسال طلب التفعيل. سيتواصل معك المصمم 771713275.');
 }
-
-async function toggleSub(uid, isActive) {
-  if (!currentUser || currentUser.email !== ADMIN_EMAIL) return;
-  if (isActive) {
-    await database.ref('users/' + uid).update({ subscription: 'free', subscriptionExpiry: null });
-  } else {
-    await database.ref('users/' + uid).update({ subscription: 'premium', subscriptionExpiry: Date.now() + 365*24*60*60*1000 });
-  }
-  loadAllUsers();
-}
-
-/* ============================================================
-   طبقة API المحدثة (الربط مع Tauri للكمبيوتر)
-   ============================================================ */
-const API = {
-  async runAdb(command) {
-    console.log('[ADB Request]', command);
-    
-    // 1. إذا كنا في بيئة سطح المكتب (Tauri)
-    if (window.__TAURI__ && window.__TAURI__.core) {
-      try {
-        const result = await window.__TAURI__.core.invoke('execute_adb', { command: command });
-        return { success: result.success, output: result.output };
-      } catch (e) {
-        return { success: false, output: `خطأ في النظام: ${e}` };
-      }
-    }
-    
-    // 2. إذا كنا في المتصفح (محاكاة)
-    return { success: true, output: `[Simulated] > ${command}\n\n(هذه محاكاة للمتصفح، سيتم التنفيذ الفعلي في نسخة الكمبيوتر)` };
-  }
-};
-
-/* ============================================================
-   العمليات (تستدعي طبقة API)
-   ============================================================ */
-function addLog(msg, type='system') {
-  const terminal = document.getElementById('terminal');
-  const line = document.createElement('div');
-  line.className = 'line ' + type;
-  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-  terminal.appendChild(line);
-  terminal.scrollTop = terminal.scrollHeight;
-}
-
-async function executeFRP() {
-  if (!(await checkOperationAllowed())) return;
-  const method = document.getElementById('frpMethod').value;
-  addLog(`[FRP] بدء عملية الفك للطريقة: ${method}`, 'cmd');
-  
-  let res;
-  if(method === 'samsung') {
-    await API.runAdb('shell am start -n com.google.android.gsf.login/');
-    await API.runAdb('shell am start -n com.google.android.gsf.login.LoginActivity');
-    res = await API.runAdb('shell content insert --uri content://settings/secure --bind name:s:user_setup_complete --bind value:s:1');
-  } else {
-    res = await API.runAdb('shell content insert --uri content://settings/secure --bind name:s:user_setup_complete --bind value:s:1');
-  }
-  
-  addLog(res.output, res.success ? 'success' : 'error');
-  await incrementOperation();
-}
-
-async function executeLocalization() {
-  if (!(await checkOperationAllowed())) return;
-  const v = document.getElementById('androidVersion').value;
-  const c = document.getElementById('countryCode').value;
-  addLog(`[تعريب] جاري تطبيق اللغة العربية والدولة ${c} لأندرويد ${v}`, 'cmd');
-  
-  const res = await API.runAdb(`shell settings put system system_locales ar-${c}`);
-  addLog(res.output, res.success ? 'success' : 'error');
-  
-  await incrementOperation();
-}
-
-async function executeNetworkMode() {
-  if (!(await checkOperationAllowed())) return;
-  const mode = document.getElementById('networkMode').value;
-  const res = await API.runAdb(`shell settings put global preferred_network_mode ${mode}`);
-  addLog(res.output, res.success ? 'success' : 'error');
-  await incrementOperation();
-}
-
-async function executeSprintToGSM() {
-  if (!(await checkOperationAllowed())) return;
-  addLog(`[شبكة] تحويل Sprint إلى GSM`, 'cmd');
-  await API.runAdb('shell settings put global preferred_network_mode 9');
-  await API.runAdb('shell settings put global preferred_network_mode 1');
-  await incrementOperation();
-}
-
-async function runAdbSim(cmd) {
-  if (!(await checkOperationAllowed())) return;
-  addLog(`> ${cmd}`, 'cmd');
-  const res = await API.runAdb(cmd.replace('adb ', ''));
-  addLog(res.output, res.success ? 'success' : 'error');
-  await incrementOperation();
-}
-
-async function executeCustomCmd() {
-  if (!(await checkOperationAllowed())) return;
-  const cmd = document.getElementById('customCmd').value.trim();
-  if(!cmd) return;
-  const res = await API.runAdb(cmd.replace('adb ', ''));
-  addLog(res.output, res.success ? 'success' : 'error');
-  await incrementOperation();
-}
-
-async function executeFactoryReset(method) {
-  if (!(await checkOperationAllowed())) return;
-  addLog(`[فرمتة] طريقة: ${method}`, 'danger');
-  if (method === 'adb') await API.runAdb('shell am broadcast -a android.intent.action.MASTER_CLEAR');
-  await incrementOperation();
-}
-
-function clearLogs() { document.getElementById('terminal').innerHTML = ''; }
-function updateLocInfo() {}
-function exportDatabase() {}
-function importDatabase() {}
-function resetDatabase() { if(confirm('إعادة تعيين؟')) { devices = [...DEFAULT_DEVICES]; saveDatabase(); renderDeviceGrid(); } }
-function addDevice() { alert('سيتم الإضافة في النسخة القادمة'); }
-function refreshDeviceTable() {}
-
-window.addEventListener('load', () => {
-  loadDatabase();
-  renderDeviceGrid();
-});
 </script>
 </body>
 </html>
