@@ -30,6 +30,12 @@
   --bg: #0f172a; --surface: #1e293b; --surface-light: #334155; --border: #475569;
   --primary: #38bdf8; --primary-dark: #0284c7; --text: #f1f5f9; --text-muted: #94a3b8;
 }
+/* الثيم الذهبي / الزيتوني الجديد */
+[data-theme="gold"] {
+  --bg: #fdfbf7; --surface: #ffffff; --surface-light: #f5f0e6; --border: #e6dec9;
+  --primary: #c5a059; --primary-dark: #a8853f; --text: #2c2a27; --text-muted: #75716b;
+  --info: #2980b9; --danger: #c0392b; --warning: #d35400;
+}
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
 body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; overflow-x: hidden; transition: background 0.3s; }
@@ -46,7 +52,7 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; display: fl
   box-shadow: -4px 0 15px rgba(0,0,0,0.1);
 }
 .sidebar-header { padding: 20px 15px; text-align: center; border-bottom: 1px solid var(--border); }
-.sidebar-logo { width: 50px; height: 50px; margin: 0 auto 10px; background: linear-gradient(135deg, var(--primary), var(--info)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #0a0e17; font-weight: bold; }
+.sidebar-logo { width: 50px; height: 50px; margin: 0 auto 10px; background: linear-gradient(135deg, var(--primary), var(--info)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; font-weight: bold; }
 .sidebar-title { font-size: 14px; font-weight: 800; color: var(--primary); line-height: 1.4; }
 .nav-links { flex: 1; overflow-y: auto; padding: 10px 0; }
 .nav-btn {
@@ -54,14 +60,14 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; display: fl
   color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer;
   display: flex; align-items: center; gap: 10px; transition: 0.2s;
 }
-.nav-btn:hover, .nav-btn.active { background: rgba(0, 212, 170, 0.1); color: var(--primary); border-right: 4px solid var(--primary); }
+.nav-btn:hover, .nav-btn.active { background: rgba(0, 0, 0, 0.05); color: var(--primary); border-right: 4px solid var(--primary); }
 
 /* ========== المحتوى الرئيسي ========== */
 .main-wrapper { flex: 1; margin-right: var(--sidebar-width); display: flex; flex-direction: column; transition: margin 0.3s; }
 .top-bar { background: var(--surface); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
 .menu-toggle { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
 .theme-btn { background: var(--surface-light); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-left: 5px; }
-.theme-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+.theme-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
 .app-container { padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; flex: 1; }
 .page { display: none; animation: fadeIn 0.3s ease; }
@@ -69,7 +75,7 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; display: fl
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ========== البطاقات المدمجة ========== */
-.card { background: var(--surface); border-radius: 12px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.card { background: var(--surface); border-radius: 12px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 .card-title { color: var(--primary); font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
 /* أزرار العمليات المدمجة */
@@ -99,8 +105,16 @@ tr:hover td { background: var(--surface-light); }
 
 /* التنبيهات */
 .alert { padding: 10px 15px; border-radius: 8px; font-size: 12px; line-height: 1.6; margin-bottom: 15px; border-right: 4px solid; }
-.alert-danger { background: rgba(231, 76, 60, 0.1); border-color: var(--danger); color: #ff9a8f; }
-.alert-info { background: rgba(52, 152, 219, 0.1); border-color: var(--info); color: #7dc4e8; }
+.alert-danger { background: rgba(231, 76, 60, 0.1); border-color: var(--danger); color: var(--danger); }
+.alert-info { background: rgba(52, 152, 219, 0.1); border-color: var(--info); color: var(--info); }
+
+/* بطاقة المصمم */
+.designer-card { background: var(--surface-light); border: 2px solid var(--primary); border-radius: 12px; padding: 20px; text-align: center; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.designer-card h3 { color: var(--primary); margin-bottom: 10px; font-size: 18px; }
+.designer-card .designer-name { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 5px; }
+.designer-card .phone { font-size: 22px; font-weight: bold; color: var(--primary); margin: 10px 0; direction: ltr; }
+.designer-card .btn-wa { background: #25D366; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 10px; font-weight: bold; transition: 0.2s; }
+.designer-card .btn-wa:hover { background: #128C7E; transform: scale(1.05); }
 
 @media (max-width: 768px) {
   .sidebar { transform: translateX(100%); }
@@ -118,7 +132,7 @@ tr:hover td { background: var(--surface-light); }
   <div class="sidebar-header">
     <div class="sidebar-logo">🔓</div>
     <div class="sidebar-title">نظام برمجة وفك شفرات وتعريب التلفونات</div>
-    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v5.0 Pro Edition</div>
+    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v5.1 Pro Edition</div>
   </div>
   <div class="nav-links">
     <button class="nav-btn active" onclick="navigate('dashboard', this)">🏠 الرئيسية</button>
@@ -131,19 +145,17 @@ tr:hover td { background: var(--surface-light); }
     <button class="nav-btn" onclick="navigate('guide', this)">📖 دليل الاستخدام</button>
     <button class="nav-btn" onclick="navigate('logs', this)">📜 سجل العمليات</button>
   </div>
-  <div style="padding: 15px; text-align: center; font-size: 11px; border-top: 1px solid var(--border); color: var(--text-muted);">
-    تصميم: نشوان البدري<br>📞 771713275
-  </div>
 </aside>
 
 <!-- المحتوى الرئيسي -->
 <div class="main-wrapper">
   <header class="top-bar">
     <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-    <div style="font-weight: bold; font-size: 14px;">مرحباً بك</div>
-    <div>
+    <div style="font-weight: bold; font-size: 14px;">لوحة التحكم</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 2px;">
       <button class="theme-btn active" onclick="setTheme('dark', this)">ليلي</button>
       <button class="theme-btn" onclick="setTheme('light', this)">فاتح</button>
+      <button class="theme-btn" onclick="setTheme('gold', this)">ذهبي</button>
       <button class="theme-btn" onclick="setTheme('cyber', this)">سايبر</button>
       <button class="theme-btn" onclick="setTheme('ocean', this)">محيط</button>
     </div>
@@ -154,7 +166,7 @@ tr:hover td { background: var(--surface-light); }
     <!-- الرئيسية -->
     <div id="page-dashboard" class="page active">
       <div class="alert alert-info">
-        <strong>مرحباً بك في نظام برمجة وفك شفرات وتعريب التلفونات</strong>
+        <strong>مرحباً بك في نظام برمجة وفك شفرات وتعريب التلفونات</strong><br>
         اختر الأداة التي تريد استخدامها من القائمة الجانبية.
       </div>
       <div class="card">
@@ -170,6 +182,16 @@ tr:hover td { background: var(--surface-light); }
           </div>
         </div>
       </div>
+
+      <!-- بطاقة المصمم هنا -->
+      <div class="designer-card">
+        <div style="font-size: 40px; margin-bottom: 5px;">👨‍💻</div>
+        <h3>تصميم وتطوير النظام</h3>
+        <div class="designer-name">نشوان البدري</div>
+        <div style="font-size: 12px; color: var(--text-muted);">للدعم الفني والاستفسارات وتفعيل الاشتراكات</div>
+        <div class="phone">📞 771713275</div>
+        <a href="https://wa.me/967771713275" target="_blank" class="btn-wa">💬 تواصل عبر واتساب</a>
+      </div>
     </div>
 
     <!-- الأجهزة -->
@@ -183,7 +205,7 @@ tr:hover td { background: var(--surface-light); }
       </div>
     </div>
 
-    <!-- فك القفل المدمج -->
+    <!-- فك القفل -->
     <div id="page-unlock" class="page">
       <div class="alert alert-danger">⚠️ استخدم الأدوات على الأجهزة التي تملكها فقط.</div>
       <div class="card">
@@ -231,7 +253,7 @@ tr:hover td { background: var(--surface-light); }
         <div class="card-title">👤 تسجيل الدخول</div>
         <input type="email" id="email" class="form-control mb-1" placeholder="البريد الإلكتروني">
         <input type="password" id="password" class="form-control mb-1" placeholder="كلمة المرور">
-        <button class="action-btn btn-arabic" style="width:100%" onclick="login()">دخول / إنشاء حساب</button>
+        <button class="action-btn btn-arabic mt-2" style="width:100%" onclick="login()">دخول / إنشاء حساب</button>
         <button class="action-btn btn-network mt-2" style="width:100%" onclick="auth.signOut()">تسجيل خروج</button>
       </div>
       <div class="card" id="profileBox" style="display:none;">
@@ -258,19 +280,50 @@ tr:hover td { background: var(--surface-light); }
       </div>
     </div>
 
-    <!-- دليل الاستخدام -->
+    <!-- دليل الاستخدام (التعليمات الكاملة) -->
     <div id="page-guide" class="page">
       <div class="card">
-        <div class="card-title">📖 دليل الاستخدام الشامل</div>
-        <div style="font-size: 13px; line-height: 1.8; color: var(--text-muted);">
-          <h3 style="color:var(--primary); margin:10px 0 5px;">1. كيف يعمل النظام؟</h3>
-          <p>هذا النظام عبارة عن واجهة تحكم. لتنفيذ العمليات فعلياً على الهواتف، يجب تثبيت نسخة الكمبيوتر (Desktop App) وربط الهاتف عبر USB.</p>
+        <div class="card-title">📖 دليل التثبيت والاستخدام الشامل</div>
+        <div style="font-size: 14px; line-height: 1.8; color: var(--text);">
+          <p>أهلاً بك أخي، إليك تطبيق "نظام برمجة وفك وتعريب الشفرات" مع كافة الأدوات لكي يعمل على الكمبيوتر بدون أي مشاكل. يرجى اتباع الخطوات بالترتيب:</p>
           
-          <h3 style="color:var(--primary); margin:10px 0 5px;">2. إدارة الحسابات والاشتراكات</h3>
-          <p>يجب على العميل تسجيل حساب. سيحصل على 10 عمليات تجريبية. بعد انتهائها، يضغط على "طلب تفعيل اشتراك"، ويقوم المدير (أنت) بتفعيل حسابه من لوحة التحكم لمدة سنة كاملة.</p>
-          
-          <h3 style="color:var(--primary); margin:10px 0 5px;">3. دعم الأجهزة</h3>
-          <p>القاعدة تدعم أكثر من 15 ماركة عالمية (Apple, Samsung, Xiaomi, Oppo, Vivo, Realme, OnePlus, Google, Nokia, Honor, Itel, Lenovo, Sony, Huawei).</p>
+          <h3 style="color:var(--primary); margin:15px 0 5px;">الخطوة 1: تثبيت التطبيق</h3>
+          <ul style="padding-right: 20px; color: var(--text-muted);">
+            <li>قم بفك ضغط ملف <code>Windows-Installer.zip</code>، ثم اضغط على الملف الذي بداخله (ينتهي بـ <code>.msi</code>) مرتين لتثبيت التطبيق.</li>
+            <li>(إذا ظهر تحذير من ويندوز، اضغط More info ثم Run anyway).</li>
+          </ul>
+
+          <h3 style="color:var(--primary); margin:15px 0 5px;">الخطوة 2: تثبيت التعريفات (مهم جداً)</h3>
+          <ul style="padding-right: 20px; color: var(--text-muted);">
+            <li>قم بتثبيت ملف <code>SAMSUNG_USB_Driver</code> (إذا كنت ستتعامل مع سامسونج).</li>
+            <li>قم بفك ضغط ملف <code>Universal_ADB_Driver</code> وثبت البرنامج الذي بداخله.</li>
+          </ul>
+
+          <h3 style="color:var(--primary); margin:15px 0 5px;">الخطوة 3: تجهيز أداة ADB</h3>
+          <ul style="padding-right: 20px; color: var(--text-muted);">
+            <li>قم بفك ضغط ملف <code>platform-tools-latest-windows.zip</code>.</li>
+            <li>خذ المجلد الذي ظهر لك (اسمه <code>platform-tools</code>) وضعه مباشرة في القرص <code>C:\</code> في الكمبيوتر. (يجب أن يكون المسار هكذا بالضبط: <code>C:\platform-tools</code>).</li>
+          </ul>
+
+          <h3 style="color:var(--primary); margin:15px 0 5px;">الخطوة 4: تجهيز الهاتف</h3>
+          <ol style="padding-right: 20px; color: var(--text-muted);">
+            <li>وصّل الهاتف بالكمبيوتر بكابل USB.</li>
+            <li>ادخل لإعدادات الهاتف -> "حول الهاتف" -> اضغط 7 مرات على "رقم الإصدار" لتفعيل وضع المطور.</li>
+            <li>ارجع للخلف وادخل على "خيارات المطور" وفعّل "تصحيح أخطاء USB".</li>
+            <li>ستظهر رسالة على شاشة الهاتف، اضغط موافق (Allow).</li>
+          </ol>
+
+          <h3 style="color:var(--primary); margin:15px 0 5px;">الخطوة 5: الاستخدام</h3>
+          <ul style="padding-right: 20px; color: var(--text-muted);">
+            <li>افتح التطبيق، سجل حساباً جديداً (لديك 10 عمليات مجانية).</li>
+            <li>اختر نوع الهاتف، ثم اضغط على زر العملية (فك FRP أو تعريب)، وسيظهر لك سجل بالأوامر التي تم تنفيذها بنجاح.</li>
+          </ul>
+
+          <div class="alert alert-warning mt-2" style="background: rgba(243,156,18,0.1); border-color: var(--warning); color: var(--text);">
+            <strong>💎 لتفعيل الاشتراك السنوي (30$) بعد انتهاء العمليات المجانية:</strong><br>
+            تواصل مع المصمم: نشوان البدري<br>
+            واتساب: 771713275
+          </div>
         </div>
       </div>
     </div>
@@ -308,29 +361,41 @@ const ADMIN_EMAIL = "sgeanashwan@gmail.com"; // حسابك كمدير
    2. قاعدة بيانات الأجهزة الضخمة
    ========================================= */
 const devicesDB = [
-  "Apple iPhone 15 Pro Max", "Apple iPhone 14", "Apple iPhone 13", "Apple iPhone 12", "Apple iPhone 11",
-  "Samsung Galaxy S24 Ultra", "Samsung Galaxy S23", "Samsung Galaxy S22", "Samsung Galaxy S21", "Samsung Galaxy A54", "Samsung Galaxy A34", "Samsung Galaxy A14", "Samsung Galaxy Z Fold 5",
-  "Xiaomi 14 Ultra", "Xiaomi Redmi Note 13", "Xiaomi Redmi 12", "Xiaomi POCO X6 Pro",
-  "Huawei P60 Pro", "Huawei Mate 50", "Huawei Nova 11",
-  "Oppo Find X7", "Oppo Reno 11", "Oppo A78",
-  "Vivo X100 Pro", "Vivo V30", "Vivo Y36",
-  "Realme GT 5 Pro", "Realme 12 Pro+", "Realme C67",
-  "OnePlus 12", "OnePlus Nord CE 4",
-  "Google Pixel 8 Pro", "Google Pixel 7a",
-  "Honor Magic 6 Pro", "Honor X9b",
-  "Motorola Edge 50 Pro", "Motorola G84",
-  "Nokia X30", "Nokia G42",
-  "Itel S24", "Itel A70",
-  "Lenovo Legion Y70", "Lenovo K14",
-  "Sony Xperia 1 V", "Sony Xperia 10 V",
-  "Tecno Camon 30", "Infinix Note 40", "ZTE Axon 50"
+  // Apple
+  "Apple iPhone 15 Pro Max", "Apple iPhone 15", "Apple iPhone 14 Pro", "Apple iPhone 14", "Apple iPhone 13", "Apple iPhone 12", "Apple iPhone 11", "Apple iPhone XR",
+  // Samsung
+  "Samsung Galaxy S24 Ultra", "Samsung Galaxy S23", "Samsung Galaxy S22", "Samsung Galaxy S21", "Samsung Galaxy Note 20", "Samsung Galaxy Z Fold 5", "Samsung Galaxy Z Flip 5", "Samsung Galaxy A54", "Samsung Galaxy A34", "Samsung Galaxy A14", "Samsung Galaxy J7", "Samsung Galaxy J3",
+  // Xiaomi
+  "Xiaomi 14 Ultra", "Xiaomi 13T", "Xiaomi Redmi Note 13 Pro", "Xiaomi Redmi Note 12", "Xiaomi Redmi 13C", "Xiaomi POCO X6 Pro", "Xiaomi POCO F5",
+  // Huawei
+  "Huawei P60 Pro", "Huawei Mate 50", "Huawei Nova 11", "Huawei Y9 Prime", "Huawei P30 Lite",
+  // Oppo
+  "Oppo Find X7", "Oppo Reno 11", "Oppo Reno 8", "Oppo A78", "Oppo A58",
+  // Vivo
+  "Vivo X100 Pro", "Vivo V30", "Vivo V29", "Vivo Y36", "Vivo Y27",
+  // Realme
+  "Realme GT 5 Pro", "Realme 12 Pro+", "Realme 11 Pro", "Realme C67", "Realme C55",
+  // OnePlus
+  "OnePlus 12", "OnePlus 11", "OnePlus Nord CE 4", "OnePlus Nord 3",
+  // Google
+  "Google Pixel 8 Pro", "Google Pixel 8", "Google Pixel 7a", "Google Pixel 6a",
+  // Honor
+  "Honor Magic 6 Pro", "Honor X9b", "Honor 90", "Honor X8a",
+  // Motorola
+  "Motorola Edge 50 Pro", "Motorola Edge 40", "Motorola G84", "Motorola G54",
+  // Nokia
+  "Nokia X30", "Nokia G42", "Nokia C32",
+  // Infinix & Tecno
+  "Infinix Note 40", "Infinix Zero 30", "Infinix Hot 40", "Tecno Camon 30", "Tecno Pova 6", "Tecno Spark 20",
+  // Itel & Lenovo & Sony & ZTE
+  "Itel S24", "Itel A70", "Lenovo Legion Y70", "Lenovo K14", "Sony Xperia 1 V", "Sony Xperia 10 V", "ZTE Axon 50"
 ];
 
 function loadDevices() {
   document.getElementById('totalDevices').innerText = devicesDB.length;
   const list = document.getElementById('deviceList');
   list.innerHTML = devicesDB.map(d => `
-    <div style="background:var(--surface-light); padding:8px; border-radius:6px; border:1px solid var(--border); font-size:11px; text-align:center;">
+    <div style="background:var(--surface-light); padding:10px; border-radius:6px; border:1px solid var(--border); font-size:11px; text-align:center; font-weight:bold;">
       ${d}
     </div>
   `).join('');
@@ -342,7 +407,7 @@ function filterDevices() {
   const list = document.getElementById('deviceList');
   const filtered = devicesDB.filter(d => d.toLowerCase().includes(q));
   list.innerHTML = filtered.map(d => `
-    <div style="background:var(--surface-light); padding:8px; border-radius:6px; border:1px solid var(--border); font-size:11px; text-align:center;">
+    <div style="background:var(--surface-light); padding:10px; border-radius:6px; border:1px solid var(--border); font-size:11px; text-align:center; font-weight:bold;">
       ${d}
     </div>
   `).join('');
@@ -433,7 +498,7 @@ function loadUsers() {
         <td>${u.email}</td>
         <td>${u.operations || 0}</td>
         <td style="color:${isActive ? 'var(--primary)' : 'var(--danger)'}">${isActive ? 'نشط' : 'موقوف'}</td>
-        <td><button onclick="toggleSub('${uid}', ${isActive})" style="background:${isActive?'var(--danger)':'var(--primary)'}; color:#000; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">${isActive?'إلغاء':'تفعيل'}</button></td>
+        <td><button onclick="toggleSub('${uid}', ${isActive})" style="background:${isActive?'var(--danger)':'var(--primary)'}; color:#fff; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">${isActive?'إلغاء':'تفعيل'}</button></td>
       </tr>`;
     });
     tbody.innerHTML = html.length ? html.join('') : '<tr><td colspan="5" style="text-align:center;">لا يوجد مستخدمين</td></tr>';
