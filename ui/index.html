@@ -30,14 +30,15 @@
   --bg: #0f172a; --surface: #1e293b; --surface-light: #334155; --border: #475569;
   --primary: #38bdf8; --primary-dark: #0284c7; --text: #f1f5f9; --text-muted: #94a3b8;
 }
+/* الثيم الذهبي / الزيتوني (الافتراضي الجديد) */
 [data-theme="gold"] {
-  --bg: #fdfbf7; --surface: #ffffff; --surface-light: #f5f0e6; --border: #e6dec9;
-  --primary: #c5a059; --primary-dark: #a8853f; --text: #2c2a27; --text-muted: #75716b;
+  --bg: #f8f9f4; --surface: #ffffff; --surface-light: #f0f3e8; --border: #dcdcd0;
+  --primary: #b8860b; --primary-dark: #996515; --text: #2c2a27; --text-muted: #6b705c;
   --info: #2980b9; --danger: #c0392b; --warning: #d35400;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; overflow-x: hidden; transition: background 0.3s; }
+body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--surface); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -48,37 +49,29 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; display: fl
   width: var(--sidebar-width); background: var(--surface); border-left: 1px solid var(--border);
   height: 100vh; position: fixed; top: 0; right: 0; z-index: 1000;
   display: flex; flex-direction: column; transition: transform 0.3s ease;
-  box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+  box-shadow: -4px 0 15px rgba(0,0,0,0.05);
 }
-.sidebar-header { padding: 20px 15px; text-align: center; border-bottom: 1px solid var(--border); }
-.sidebar-title { font-size: 14px; font-weight: 800; color: var(--primary); line-height: 1.4; }
+.sidebar-header { padding: 20px 15px; text-align: center; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+.sidebar-logo { width: 60px; height: 60px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; }
+.sidebar-logo svg { width: 100%; height: 100%; filter: drop-shadow(0 4px 6px rgba(184, 134, 11, 0.3)); animation: float 3s ease-in-out infinite; }
+@keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+.sidebar-title { font-size: 15px; font-weight: 800; color: var(--primary); line-height: 1.4; }
 .nav-links { flex: 1; overflow-y: auto; padding: 10px 0; }
 .nav-btn {
   width: 100%; padding: 12px 20px; text-align: right; background: transparent; border: none;
   color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer;
-  display: flex; align-items: center; gap: 10px; transition: 0.2s;
+  display: flex; align-items: center; gap: 10px; transition: 0.2s; border-right: 4px solid transparent;
 }
-.nav-btn:hover, .nav-btn.active { background: rgba(0, 0, 0, 0.05); color: var(--primary); border-right: 4px solid var(--primary); }
+.nav-btn:hover { background: var(--surface-light); }
+.nav-btn.active { background: var(--surface-light); color: var(--primary); border-right-color: var(--primary); }
 
 /* ========== المحتوى الرئيسي ========== */
 .main-wrapper { flex: 1; margin-right: var(--sidebar-width); display: flex; flex-direction: column; transition: margin 0.3s; }
 .top-bar { background: var(--surface); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
-
-/* الشعار المتحرك في الرأسية */
-.logo-container { display: flex; align-items: center; gap: 10px; }
-.animated-logo { width: 40px; height: 40px; position: relative; display: flex; align-items: center; justify-content: center; }
-.animated-logo svg { width: 100%; height: 100%; animation: pulse-glow 2s infinite alternate; }
-@keyframes pulse-glow {
-  0% { filter: drop-shadow(0 0 2px var(--primary)); transform: scale(1); }
-  100% { filter: drop-shadow(0 0 10px var(--primary)); transform: scale(1.1); }
-}
-.typing-text { font-weight: 800; color: var(--primary); font-size: 16px; white-space: nowrap; overflow: hidden; border-left: 2px solid var(--primary); animation: typing 3s steps(30, end) infinite alternate, blink-caret .75s step-end infinite; }
-@keyframes typing { from { width: 0 } to { width: 100% } }
-@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--primary) } }
-
 .menu-toggle { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
-.theme-btn { background: var(--surface-light); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-left: 5px; }
-.theme-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.top-title { font-weight: 800; font-size: 16px; color: var(--primary); }
+.theme-btn { background: var(--surface-light); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-left: 5px; transition: 0.2s; }
+.theme-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 2px 10px rgba(184, 134, 11, 0.4); }
 
 .app-container { padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; flex: 1; }
 .page { display: none; animation: fadeIn 0.3s ease; }
@@ -86,45 +79,72 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; display: fl
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ========== البطاقات المدمجة ========== */
-.card { background: var(--surface); border-radius: 12px; padding: 15px; border: 1px solid var(--border); margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-.card-title { color: var(--primary); font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.card { background: var(--surface); border-radius: 12px; padding: 20px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.card-title { color: var(--primary); font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
 
-/* أزرار العمليات المدمجة */
-.action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px; }
-.action-btn { padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: #fff; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.action-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+/* ========== بانر البرمجة (السرعة والدقة) ========== */
+.tech-banner {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  padding: 25px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 8px 25px rgba(184, 134, 11, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+.tech-banner::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(184,134,11,0.1) 0%, transparent 60%);
+  animation: rotate 10s linear infinite; z-index: 0;
+}
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.tech-icon { font-size: 50px; z-index: 1; filter: drop-shadow(0 0 10px var(--primary)); }
+.tech-text { z-index: 1; }
+.tech-text h2 { color: var(--primary); margin-bottom: 5px; font-size: 22px; }
+.tech-text p { font-size: 14px; color: var(--text-muted); line-height: 1.6; font-weight: 600; }
+
+/* أزرار العمليات */
+.action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
+.action-btn { padding: 14px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: #fff; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+.action-btn:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 .btn-frp { background: linear-gradient(135deg, #e74c3c, #c0392b); }
 .btn-arabic { background: linear-gradient(135deg, #3498db, #2980b9); }
 .btn-3g { background: linear-gradient(135deg, #f39c12, #e67e22); }
 .btn-network { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+.btn-gold { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; }
 
 /* الحقول والقوائم */
-.form-group { margin-bottom: 12px; }
-.form-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
-.form-control { width: 100%; padding: 10px; background: var(--surface-light); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
-.form-control:focus { outline: none; border-color: var(--primary); }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
+.form-control { width: 100%; padding: 12px; background: var(--surface-light); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 14px; transition: 0.2s; }
+.form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1); }
 
 /* الجداول */
 .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th, td { padding: 10px; text-align: right; border-bottom: 1px solid var(--border); }
-th { background: var(--surface-light); color: var(--primary); font-weight: 700; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 12px; text-align: right; border-bottom: 1px solid var(--border); }
+th { background: var(--surface-light); color: var(--primary); font-weight: 800; }
 tr:hover td { background: var(--surface-light); }
 
 /* السجل */
-.terminal { background: #000; color: #00ff88; font-family: monospace; padding: 10px; border-radius: 8px; height: 200px; overflow-y: auto; font-size: 12px; direction: ltr; text-align: left; border: 1px solid var(--border); }
+.terminal { background: #000; color: #00ff88; font-family: monospace; padding: 15px; border-radius: 8px; height: 250px; overflow-y: auto; font-size: 13px; direction: ltr; text-align: left; border: 1px solid var(--border); }
 
 /* التنبيهات */
-.alert { padding: 10px 15px; border-radius: 8px; font-size: 12px; line-height: 1.6; margin-bottom: 15px; border-right: 4px solid; }
+.alert { padding: 12px 15px; border-radius: 8px; font-size: 13px; line-height: 1.6; margin-bottom: 15px; border-right: 4px solid; }
 .alert-danger { background: rgba(231, 76, 60, 0.1); border-color: var(--danger); color: var(--danger); }
 .alert-info { background: rgba(52, 152, 219, 0.1); border-color: var(--info); color: var(--info); }
 .alert-success { background: rgba(0, 212, 170, 0.1); border-color: var(--primary); color: var(--primary); }
 
 /* بطاقة المصمم */
-.designer-card { background: var(--surface-light); border: 2px solid var(--primary); border-radius: 12px; padding: 20px; text-align: center; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.designer-card h3 { color: var(--primary); margin-bottom: 10px; font-size: 18px; }
-.designer-card .designer-name { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 5px; }
-.designer-card .phone { font-size: 22px; font-weight: bold; color: var(--primary); margin: 10px 0; direction: ltr; }
+.designer-card { background: var(--surface); border: 2px solid var(--primary); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(184, 134, 11, 0.1); margin-top: 20px; }
+.designer-card .avatar { font-size: 50px; margin-bottom: 10px; }
+.designer-card h3 { color: var(--text-muted); margin-bottom: 5px; font-size: 14px; }
+.designer-card .name { font-size: 22px; font-weight: 800; color: var(--primary); }
+.designer-card .phone { font-size: 24px; font-weight: 900; color: var(--text); margin: 10px 0; direction: ltr; }
 .designer-card .btn-wa { background: #25D366; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 10px; font-weight: bold; transition: 0.2s; }
 .designer-card .btn-wa:hover { background: #128C7E; transform: scale(1.05); }
 
@@ -134,17 +154,25 @@ tr:hover td { background: var(--surface-light); }
   .main-wrapper { margin-right: 0; }
   .menu-toggle { display: block; }
   .action-grid { grid-template-columns: 1fr; }
-  .typing-text { font-size: 13px; }
+  .tech-banner { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
-<body data-theme="dark">
+<body data-theme="gold"> <!-- الثيم الافتراضي الذهبي -->
 
 <!-- القائمة الجانبية -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <div class="sidebar-title">نظام برمجة وفك شفرات وتعريب التلفونات</div>
-    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v6.0 Ultimate Edition</div>
+    <div class="sidebar-logo">
+      <!-- شعار برمجي أنيق -->
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 8L3 12L7 16" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17 8L21 12L17 16" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14 4L10 20" stroke="var(--info)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="sidebar-title">نظام برمجة وفك شفرات<br>وتعريب التلفونات</div>
+    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v6.1 Pro Edition</div>
   </div>
   <div class="nav-links">
     <button class="nav-btn active" onclick="navigate('dashboard', this)">🏠 الرئيسية</button>
@@ -164,22 +192,11 @@ tr:hover td { background: var(--surface-light); }
 <div class="main-wrapper">
   <header class="top-bar">
     <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-    <!-- الشعار المتحرك -->
-    <div class="logo-container">
-      <div class="animated-logo">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <path d="M30 35L20 50L30 65" stroke="var(--primary)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <path d="M70 35L80 50L70 65" stroke="var(--primary)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <path d="M55 25L45 75" stroke="var(--info)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
-      </div>
-      <div class="typing-text">UnlockHub Pro</div>
-    </div>
-    
+    <div class="top-title">لوحة التحكم الرئيسية</div>
     <div style="display: flex; flex-wrap: wrap; gap: 2px;">
-      <button class="theme-btn active" onclick="setTheme('dark', this)">ليلي</button>
+      <button class="theme-btn active" onclick="setTheme('gold', this)">ذهبي</button>
+      <button class="theme-btn" onclick="setTheme('dark', this)">ليلي</button>
       <button class="theme-btn" onclick="setTheme('light', this)">فاتح</button>
-      <button class="theme-btn" onclick="setTheme('gold', this)">ذهبي</button>
       <button class="theme-btn" onclick="setTheme('cyber', this)">سايبر</button>
       <button class="theme-btn" onclick="setTheme('ocean', this)">محيط</button>
     </div>
@@ -189,30 +206,36 @@ tr:hover td { background: var(--surface-light); }
     
     <!-- الرئيسية -->
     <div id="page-dashboard" class="page active">
-      <div class="alert alert-info">
-        <strong>مرحباً بك في نظام برمجة وفك شفرات وتعريب التلفونات</strong><br>
-        اختر الأداة التي تريد استخدامها من القائمة الجانبية.
+      
+      <!-- بانر البرمجة والسرعة -->
+      <div class="tech-banner">
+        <div class="tech-icon">⚡</div>
+        <div class="tech-text">
+          <h2>سرعة فائقة، دقة متناهية</h2>
+          <p>نظام برمجي متكامل يعتمد على أحدث تقنيات الاتصال (ADB) لاختصار الوقت وتنفيذ أدق العمليات على هواتف الأندرويد بضغطة زر واحدة.</p>
+        </div>
       </div>
+
       <div class="card">
-        <div class="card-title">إحصائيات النظام</div>
+        <div class="card-title">📊 إحصائيات النظام المباشرة</div>
         <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-          <div style="flex:1; background: var(--surface-light); padding: 15px; border-radius: 8px; text-align: center;">
-            <div style="font-size: 12px; color: var(--text-muted);">الأجهزة المدعومة</div>
-            <div style="font-size: 20px; font-weight: bold; color: var(--primary);" id="totalDevices">0</div>
+          <div style="flex:1; background: var(--surface-light); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+            <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 5px;">الأجهزة المدعومة</div>
+            <div style="font-size: 28px; font-weight: 900; color: var(--primary);" id="totalDevices">0</div>
           </div>
-          <div style="flex:1; background: var(--surface-light); padding: 15px; border-radius: 8px; text-align: center;">
-            <div style="font-size: 12px; color: var(--text-muted);">حالة الحساب</div>
-            <div style="font-size: 20px; font-weight: bold; color: var(--warning);" id="accStatus">غير مسجل</div>
+          <div style="flex:1; background: var(--surface-light); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border);">
+            <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 5px;">حالة الحساب</div>
+            <div style="font-size: 28px; font-weight: 900; color: var(--text);" id="accStatus">غير مسجل</div>
           </div>
         </div>
       </div>
 
       <!-- بطاقة المصمم -->
       <div class="designer-card">
-        <div style="font-size: 40px; margin-bottom: 5px;">👨‍💻</div>
+        <div class="avatar">👨‍💻</div>
         <h3>تصميم وتطوير النظام</h3>
-        <div class="designer-name">نشوان البدري</div>
-        <div style="font-size: 12px; color: var(--text-muted);">للدعم الفني والاستفسارات وتفعيل الاشتراكات</div>
+        <div class="name">نشوان البدري</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-top:5px;">للدعم الفني والاستفسارات وتفعيل اشتراكات العملاء</div>
         <div class="phone">📞 771713275</div>
         <a href="https://wa.me/967771713275" target="_blank" class="btn-wa">💬 تواصل عبر واتساب</a>
       </div>
@@ -234,13 +257,13 @@ tr:hover td { background: var(--surface-light); }
             <option value="">-- اختر الماركة أولاً --</option>
           </select>
         </div>
-        <div id="deviceStatus" style="margin-top: 15px; font-size: 13px; font-weight: bold; color: var(--primary);"></div>
+        <div id="deviceStatus" style="margin-top: 15px; font-size: 14px; font-weight: bold; color: var(--primary); text-align: center;"></div>
       </div>
     </div>
 
     <!-- فك القفل -->
     <div id="page-unlock" class="page">
-      <div class="alert alert-danger">⚠️ استخدم الأدوات على الأجهزة التي تملكها فقط.</div>
+      <div class="alert alert-danger">⚠️ تحذير: استخدم الأدوات على الأجهزة التي تملكها فقط. التطبيق غير مسؤول عن الاستخدام الخاطئ.</div>
       <div class="card">
         <div class="card-title">🔓 فك وتخطي حساب جوجل (FRP)</div>
         <div class="action-grid">
@@ -248,16 +271,16 @@ tr:hover td { background: var(--surface-light); }
           <button class="action-btn btn-frp" onclick="runCmd('FRP Universal')">فك عام (MTK/SPD)</button>
           <button class="action-btn btn-frp" onclick="runCmd('FRP Android 16')">فك أندرويد 16</button>
         </div>
-        <button class="action-btn btn-arabic" style="width:100%" onclick="runCmd('Screen Lock')">🔒 إزالة قفل الشاشة (PIN/Pattern)</button>
+        <button class="action-btn btn-gold" style="width:100%; margin-top:10px;" onclick="runCmd('Screen Lock')">🔒 إزالة قفل الشاشة (PIN/Pattern)</button>
       </div>
     </div>
 
     <!-- التعريب -->
     <div id="page-localization" class="page">
       <div class="card">
-        <div class="card-title">🌐 تعريب الجهاز</div>
+        <div class="card-title">🌐 تعريب الجهاز (تحويل اللغة للعربية)</div>
         <div class="form-group">
-          <label>إصدار الأندرويد</label>
+          <label>اختر إصدار الأندرويد للجهاز</label>
           <select class="form-control" id="androidVer">
             <option value="6-9">أندرويد 6 - 9 (setprop)</option>
             <option value="10-13">أندرويد 10 - 13 (MoreLocale)</option>
@@ -271,11 +294,11 @@ tr:hover td { background: var(--surface-light); }
     <!-- الشبكة (4G / VoLTE / 3G) -->
     <div id="page-network" class="page">
       <div class="card">
-        <div class="card-title">🚀 تفعيل شبكة 4G (الفورج)</div>
+        <div class="card-title">🚀 تفعيل شبكة 4G (الفورج) و VoLTE</div>
         <div class="alert alert-info">يقوم النظام بإرسال أمر للهاتف لتفعيل وضع LTE تلقائياً (يعتمد على دعم الهاتف والشريحة).</div>
         <div class="action-grid">
-          <button class="action-btn" style="background: linear-gradient(135deg, #00d4aa, #00b894); color: #000;" onclick="runCmd('Enable 4G')">تفعيل 4G (LTE تلقائي)</button>
-          <button class="action-btn btn-primary" style="background: linear-gradient(135deg, #3498db, #2980b9);" onclick="runCmd('Enable VoLTE')">تفعيل VoLTE (مكالمات 4G)</button>
+          <button class="action-btn btn-gold" onclick="runCmd('Enable 4G')">تفعيل 4G (LTE تلقائي)</button>
+          <button class="action-btn btn-arabic" onclick="runCmd('Enable VoLTE')">تفعيل VoLTE (مكالمات 4G)</button>
         </div>
       </div>
       <div class="card">
@@ -318,18 +341,18 @@ tr:hover td { background: var(--surface-light); }
     <!-- حسابي -->
     <div id="page-account" class="page">
       <div class="card" id="authBox">
-        <div class="card-title">👤 تسجيل الدخول</div>
+        <div class="card-title">👤 تسجيل الدخول / إنشاء حساب</div>
         <input type="email" id="email" class="form-control mb-1" placeholder="البريد الإلكتروني">
         <input type="password" id="password" class="form-control mb-1" placeholder="كلمة المرور">
-        <button class="action-btn btn-arabic mt-2" style="width:100%" onclick="login()">دخول / إنشاء حساب</button>
+        <button class="action-btn btn-gold mt-2" style="width:100%" onclick="login()">دخول / إنشاء حساب</button>
         <button class="action-btn btn-network mt-2" style="width:100%" onclick="auth.signOut()">تسجيل خروج</button>
       </div>
       <div class="card" id="profileBox" style="display:none;">
         <div class="card-title">معلومات الحساب</div>
-        <p>الاسم: <b id="pName">-</b></p>
-        <p>البريد: <b id="pEmail">-</b></p>
-        <p>العمليات المتبقية: <b id="pOps" style="color:var(--primary)">-</b></p>
-        <p>حالة الاشتراك: <b id="pSub" style="color:var(--warning)">-</b></p>
+        <p style="margin-bottom: 10px;">الاسم: <b id="pName">-</b></p>
+        <p style="margin-bottom: 10px;">البريد: <b id="pEmail">-</b></p>
+        <p style="margin-bottom: 10px;">العمليات المتبقية: <b id="pOps" style="color:var(--primary); font-size:18px;">-</b></p>
+        <p style="margin-bottom: 10px;">حالة الاشتراك: <b id="pSub">-</b></p>
         <button class="action-btn btn-3g mt-2" style="width:100%" onclick="requestSub()">طلب تفعيل اشتراك (30$)</button>
       </div>
     </div>
@@ -338,7 +361,7 @@ tr:hover td { background: var(--surface-light); }
     <div id="page-admin" class="page">
       <div class="card">
         <div class="card-title">🛡️ إدارة المستخدمين والاشتراكات</div>
-        <button class="action-btn btn-arabic mb-2" onclick="loadUsers()">🔄 تحديث القائمة</button>
+        <button class="action-btn btn-gold mb-2" onclick="loadUsers()">🔄 تحديث القائمة</button>
         <div class="table-wrap">
           <table>
             <thead><tr><th>الاسم</th><th>البريد</th><th>العمليات</th><th>الاشتراك</th><th>إجراء</th></tr></thead>
@@ -386,12 +409,6 @@ tr:hover td { background: var(--surface-light); }
             <li>افتح التطبيق، سجل حساباً جديداً (لديك 10 عمليات مجانية).</li>
             <li>اختر نوع الهاتف، ثم اضغط على زر العملية (فك FRP أو تعريب)، وسيظهر لك سجل بالأوامر التي تم تنفيذها بنجاح.</li>
           </ul>
-
-          <div class="alert alert-warning mt-2" style="background: rgba(243,156,18,0.1); border-color: var(--warning); color: var(--text);">
-            <strong>💎 لتفعيل الاشتراك السنوي (30$) بعد انتهاء العمليات المجانية:</strong><br>
-            تواصل مع المصمم: نشوان البدري<br>
-            واتساب: 771713275
-          </div>
         </div>
       </div>
     </div>
