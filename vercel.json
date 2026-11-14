@@ -1,6 +1,8 @@
-
 {
-  "buildCommand": "",
-  "outputDirectory": "ui",
-  "public": true
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/ui/index.html"
+    }
+  ]
 }
