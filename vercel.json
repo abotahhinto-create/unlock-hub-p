@@ -1,1 +1,6 @@
 
+{
+  "buildCommand": "",
+  "outputDirectory": "ui",
+  "public": true
+}
