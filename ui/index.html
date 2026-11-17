@@ -21,7 +21,6 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; display: fl
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 
-/* القائمة الجانبية */
 .sidebar { width: var(--sidebar-width); background: var(--surface); border-left: 1px solid var(--border); height: 100vh; position: fixed; right: 0; display: flex; flex-direction: column; z-index: 1000; box-shadow: -2px 0 10px rgba(0,0,0,0.05); }
 .sidebar-header { padding: 20px; text-align: center; border-bottom: 1px solid var(--border); background: var(--surface-light); }
 .sidebar-title { font-size: 15px; font-weight: 800; color: var(--primary); line-height: 1.4; }
@@ -30,7 +29,6 @@ body { background: var(--bg); color: var(--text); min-height: 100vh; display: fl
 .nav-btn:hover { background: var(--surface-light); }
 .nav-btn.active { background: var(--surface-light); color: var(--primary); border-right-color: var(--primary); }
 
-/* المحتوى الرئيسي */
 .main-wrapper { flex: 1; margin-right: var(--sidebar-width); display: flex; flex-direction: column; }
 .top-bar { background: var(--surface); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); flex-wrap: wrap; gap: 10px; }
 .adb-bar { display: flex; gap: 10px; align-items: center; background: var(--surface-light); padding: 10px; border-radius: 8px; flex: 1; max-width: 400px; }
@@ -61,7 +59,6 @@ th { background: var(--surface-light); color: var(--primary); }
 
 .terminal { background: #1e1e1e; color: #00ff88; font-family: monospace; padding: 15px; border-radius: 8px; height: 250px; overflow-y: auto; font-size: 13px; direction: ltr; text-align: left; }
 
-/* تصميم دليل التشغيل والأسئلة */
 .guide-step { display: flex; gap: 15px; margin-bottom: 20px; background: var(--surface-light); padding: 15px; border-radius: 8px; }
 .step-number { width: 30px; height: 30px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
 .step-content h4 { color: var(--primary); margin-bottom: 5px; }
@@ -71,12 +68,10 @@ th { background: var(--surface-light); color: var(--primary); }
 .faq-question { background: var(--surface-light); padding: 15px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text); }
 .faq-answer { padding: 15px; background: var(--surface); display: none; border-top: 1px solid var(--border); line-height: 1.8; font-size: 14px; color: var(--text-muted); }
 
-/* لوحة التحكم */
 .stat-box { background: var(--surface-light); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid var(--border); flex: 1; }
 .stat-box h4 { color: var(--text-muted); font-size: 12px; margin-bottom: 5px; }
 .stat-box .num { font-size: 24px; font-weight: 900; color: var(--primary); }
 
-/* بطاقة المصمم والصورة الرئيسية */
 .hero-img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--border); }
 .designer-card { background: linear-gradient(135deg, var(--surface-light), var(--surface)); border: 2px solid var(--primary); border-radius: 12px; padding: 20px; text-align: center; margin-top: 20px; }
 .designer-card h3 { color: var(--primary); margin-bottom: 5px; }
@@ -92,12 +87,12 @@ th { background: var(--surface-light); color: var(--primary); }
 }
 </style>
 </head>
-<body data-theme="dark">
+<body data-theme="light"> <!-- تم جعله فاتح افتراضي -->
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-title">النظام العربي الشامل<br>لبرمجة الأجهزة</div>
-    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v16.0 Ultra</div>
+    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v17.0 Ultra</div>
   </div>
   <div class="nav-links">
     <button class="nav-btn active" onclick="navigate('dashboard', this)">🏠 الرئيسية</button>
@@ -110,7 +105,7 @@ th { background: var(--surface-light); color: var(--primary); }
     <button class="nav-btn" onclick="navigate('recovery', this)">🖼️ استعادة الملفات</button>
     <button class="nav-btn" onclick="navigate('devtools', this)">💻 أدوات المبرمج</button>
     <button class="nav-btn" onclick="navigate('guide', this)">📖 دليل التشغيل</button>
-    <button class="nav-btn" onclick="navigate('faq', this)">❓ الأسئلة (100+)</button>
+    <button class="nav-btn" onclick="navigate('faq', this)">❓ الأسئلة الشائعة</button>
     <button class="nav-btn" onclick="navigate('account', this)">👤 حسابي</button>
     <button class="nav-btn" onclick="navigate('admin', this)" id="adminNavBtn" style="display:none; color:var(--danger);">🛡️ لوحة التحكم</button>
     <button class="nav-btn" onclick="navigate('logs', this)">📜 السجل (Log)</button>
@@ -127,8 +122,8 @@ th { background: var(--surface-light); color: var(--primary); }
     </div>
 
     <div style="display: flex; gap: 5px;">
-      <button class="theme-btn" onclick="setTheme('dark')">ليلي</button>
       <button class="theme-btn" onclick="setTheme('light')">فاتح</button>
+      <button class="theme-btn" onclick="setTheme('dark')">ليلي</button>
       <button class="theme-btn" onclick="setTheme('gold')">ذهبي</button>
       <button class="theme-btn" onclick="setTheme('cyber')">سايبر</button>
       <button class="theme-btn" onclick="setTheme('ocean')">محيط</button>
@@ -137,18 +132,15 @@ th { background: var(--surface-light); color: var(--primary); }
 
   <div class="app-container">
     
-    <!-- 1. الرئيسية -->
+    <!-- الرئيسية -->
     <div id="page-dashboard" class="page active">
-      <!-- صورة تعبيرية عن البرمجة -->
       <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="برمجة" class="hero-img">
-      
       <div class="card" style="background: linear-gradient(135deg, var(--surface), var(--surface-light)); border: 2px solid var(--primary);">
         <h2 style="color: var(--primary); margin-bottom: 10px;">⚡ النظام العربي الشامل</h2>
         <p style="font-size: 14px; line-height: 1.8; color: var(--text-muted);">
           أحدث نظام عربي لفك الشفرات، التعريب، وتفعيل شبكات 4G و VoLTE. يعتمد على تقنيات ADB المتقدمة لتنفيذ العمليات بدقة وسرعة فائقة.
         </p>
       </div>
-
       <div class="card">
         <div class="card-title">🌟 أهم مميزات النظام</div>
         <ul style="padding-right: 20px; line-height: 2; font-size: 14px; color: var(--text-muted);">
@@ -156,10 +148,8 @@ th { background: var(--surface-light); color: var(--primary); }
           <li><b>دقة متناهية:</b> خوارزميات متطورة لضمان نجاح العمليات.</li>
           <li><b>دعم شامل:</b> أكثر من 200 جهاز من مختلف الماركات.</li>
           <li><b>واجهة عربية:</b> سهلة الاستخدام ومصممة للفنيين.</li>
-          <li><b>تحديثات مستمرة:</b> إضافة أدوات جديدة بشكل دوري.</li>
         </ul>
       </div>
-
       <div class="designer-card">
         <div style="font-size: 40px; margin-bottom: 10px;">👨‍💻</div>
         <h3>تصميم وتطوير النظام</h3>
@@ -169,22 +159,18 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 2. الأجهزة -->
+    <!-- الأجهزة -->
     <div id="page-devices" class="page">
       <div class="card">
         <div class="card-title">📱 قاعدة بيانات الأجهزة الشاملة</div>
         <div style="display: flex; gap: 10px; flex-direction: column;">
-          <select class="form-control" id="brandSelect" onchange="populateModels()">
-            <option value="">-- اختر الماركة --</option>
-          </select>
-          <select class="form-control" id="modelSelect" disabled>
-            <option value="">-- اختر الموديل --</option>
-          </select>
+          <select class="form-control" id="brandSelect" onchange="populateModels()"><option value="">-- اختر الماركة --</option></select>
+          <select class="form-control" id="modelSelect" disabled><option value="">-- اختر الموديل --</option></select>
         </div>
       </div>
     </div>
 
-    <!-- 3. فك القفل -->
+    <!-- فك القفل -->
     <div id="page-unlock" class="page">
       <div class="card">
         <div class="card-title">🔓 فك وتخطي حساب جوجل (FRP)</div>
@@ -195,7 +181,7 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 4. التعريب -->
+    <!-- التعريب -->
     <div id="page-localization" class="page">
       <div class="card">
         <div class="card-title">🌐 تعريب هواتف الأندرويد</div>
@@ -207,7 +193,7 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 5. الشبكة -->
+    <!-- الشبكة -->
     <div id="page-network" class="page">
       <div class="card">
         <div class="card-title">📶 إعدادات الشبكة والجيل الرابع</div>
@@ -219,7 +205,7 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 6. الفلاش Odin -->
+    <!-- الفلاش Odin -->
     <div id="page-flasher" class="page">
       <div class="card">
         <div class="card-title">⚙️ واجهة فلاش سامسونج (Odin)</div>
@@ -229,7 +215,7 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 7. أدوات ADB -->
+    <!-- أدوات ADB -->
     <div id="page-adb" class="page">
       <div class="card">
         <div class="card-title">🛠️ أدوات ADB السريعة</div>
@@ -242,11 +228,11 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 8. استعادة الملفات -->
+    <!-- استعادة الملفات -->
     <div id="page-recovery" class="page">
       <div class="card">
         <div class="card-title">🖼️ استعادة الملفات المحذوفة (صور/فيديو)</div>
-        <div class="alert alert-info">ملاحظة: لاستعادة الملفات بنجاح، يجب أن يكون الهاتف مروتاً (Root) أو استخدام أدوات متخصصة. هذه الأوامر تقوم بعمل نسخة احتياطية من الملفات الحالية.</div>
+        <div class="alert alert-info" style="padding:10px; background:rgba(52,152,219,0.1); color:var(--info); border-radius:8px; margin-bottom:10px;">ملاحظة: لاستعادة الملفات بنجاح، يجب أن يكون الهاتف مروتاً (Root) أو استخدام أدوات متخصصة. هذه الأوامر تقوم بعمل نسخة احتياطية من الملفات الحالية.</div>
         <div class="grid-actions">
           <button class="btn btn-info" onclick="runCmd('pull /sdcard/DCIM/Camera/')">📥 سحب صور الكاميرا</button>
           <button class="btn btn-info" onclick="runCmd('pull /sdcard/WhatsApp/Media/')">📥 سحب ملفات واتساب</button>
@@ -255,7 +241,7 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 9. أدوات المبرمج -->
+    <!-- أدوات المبرمج -->
     <div id="page-devtools" class="page">
       <div class="card">
         <div class="card-title">💻 أدوات المبرمج (للمتقدمين)</div>
@@ -268,26 +254,26 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 10. دليل التشغيل -->
+    <!-- دليل التشغيل -->
     <div id="page-guide" class="page">
       <div class="card">
-        <div class="card-title">📖 دليل التشغيل الكامل (للعملاء)</div>
+        <div class="card-title">📖 دليل التشغيل الكامل</div>
         <div class="guide-step"><div class="step-number">1</div><div class="step-content"><h4>تثبيت التطبيق والتعريفات</h4><p>قم بتثبيت ملف `.msi` للتطبيق. ثم قم بتثبيت ملفات التعريفات (Samsung Driver و Universal ADB).</p></div></div>
         <div class="guide-step"><div class="step-number">2</div><div class="step-content"><h4>تفعيل تصحيح الأخطاء</h4><p>اذهب إلى "حول الهاتف" واضغط 7 مرات على "رقم الإصدار". ارجع وادخل على "خيارات المطور" وفعل "تصحيح أخطاء USB".</p></div></div>
         <div class="guide-step"><div class="step-number">3</div><div class="step-content"><h4>توصيل الهاتف والسماح</h4><p>وصّل الهاتف بالكمبيوتر. ستظهر رسالة تسألك "السماح بتصحيح الأخطاء؟"، ضع علامة صح على "السماح دائماً" واضغط موافق.</p></div></div>
       </div>
     </div>
 
-    <!-- 11. الأسئلة والأجوبة -->
+    <!-- الأسئلة والأجوبة -->
     <div id="page-faq" class="page">
       <div class="card">
-        <div class="card-title">❓ الأسئلة الشائعة (100+ سؤال)</div>
+        <div class="card-title">❓ الأسئلة الشائعة (60 سؤال)</div>
         <input type="text" class="form-control" id="faqSearch" onkeyup="searchFaq()" placeholder="ابحث عن سؤالك هنا...">
         <div id="faqContainer" style="max-height: 500px; overflow-y: auto;"></div>
       </div>
     </div>
 
-    <!-- 12. حسابي -->
+    <!-- حسابي -->
     <div id="page-account" class="page">
       <div class="card" id="authBox">
         <div class="card-title">👤 تسجيل الدخول / إنشاء حساب</div>
@@ -303,7 +289,7 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 13. لوحة التحكم (Admin) -->
+    <!-- لوحة التحكم -->
     <div id="page-admin" class="page">
       <div class="card">
         <div class="card-title">🛡️ لوحة تحكم المشرف (الإحصائيات)</div>
@@ -330,7 +316,7 @@ th { background: var(--surface-light); color: var(--primary); }
       </div>
     </div>
 
-    <!-- 14. السجل -->
+    <!-- السجل -->
     <div id="page-logs" class="page">
       <div class="card">
         <div class="card-title">📜 سجل العمليات</div>
@@ -440,30 +426,72 @@ async function runCmd(cmd) {
   term.scrollTop = term.scrollHeight;
 }
 
-/* 100 سؤال وجواب */
-const faqData = Array.from({length: 100}, (_, i) => {
-  if(i === 0) return { q: "كيف أقوم بتعريب جوال سامسونج S20؟", a: "1. وصل الهاتف وفعل USB Debugging.<br>2. اضغط Check adb للتأكد.<br>3. اذهب لصفحة التعريب واضغط 'إضافة اللغة العربية'.<br>4. أعد تشغيل الهاتف." };
-  if(i === 1) return { q: "لماذا لا يظهر زر Check adb الهاتف؟", a: "تأكد من: 1. الكابل أصلي. 2. تثبيت تعريفات ADB. 3. تفعيل تصحيح أخطاء USB من خيارات المطور." };
-  if(i === 2) return { q: "ما هو فك FRP؟", a: "تخطي شاشة حساب جوجل التي تظهر بعد فرمتة الهاتف." };
-  if(i === 3) return { q: "كيف أفك قفل حساب جوجل؟", a: "صفحة فك القفل -> اضغط 'فك FRP (طريقة عامة)'." };
-  if(i === 4) return { q: "هل يمكن فك FRP لأندرويد 14؟", a: "نعم في بعض الأجهزة، لكن الأجهزة الحديثة جداً قد تتطلب أدوات مدفوعة." };
-  if(i === 5) return { q: "كيف أغير اللغة إلى العربية؟", a: "استخدم زر التعريب في صفحة التعريب، واختر إصدار الأندرويد المناسب." };
-  if(i === 6) return { q: "ماذا أفعل إذا فشل التعريب؟", a: "اضغط على 'إصلاح مشكلة اللغة' ثم أعد المحاولة، أو أعد تشغيل الهاتف." };
-  if(i === 7) return { q: "كيف أفعل شبكة 4G؟", a: "اذهب لصفحة الشبكة واضغط 'تفعيل 4G (LTE)'." };
-  if(i === 8) return { q: "لماذا لا تعمل شبكة 4G؟", a: "قد لا تدعم الشريحة أو المنطقة 4G، أو الهاتف لا يدعم التردد." };
-  if(i === 9) return { q: "ما هو VoLTE؟", a: "مكالمات عبر شبكة 4G، يمكنك تفعيله من صفحة الشبكة." };
-  if(i === 10) return { q: "كيف أعرف أن التطبيق متصل؟", a: "اضغط Check adb، إذا ظهر رقم (مثل R58) فهو متصل." };
-  if(i === 11) return { q: "لماذا التطبيق يعرض محاكاة؟", a: "لأنك تستخدم نسخة الويب. يجب تثبيت نسخة الكمبيوتر (.msi)." };
-  if(i === 12) return { q: "كيف أسجل حساباً؟", a: "من صفحة حسابي، اكتب بريدك أو رقم هاتفك وكلمة مرور (6 أرقام)." };
-  if(i === 13) return { q: "نسيت كلمة المرور؟", a: "أنشئ حساباً جديداً برقم هاتف آخر، أو تواصل مع المصمم." };
-  if(i === 14) return { q: "كم عدد العمليات المجانية؟", a: "10 عمليات لكل حساب." };
-  if(i === 15) return { q: "كيف أفعل الاشتراك؟", a: "تواصل مع المصمم 771713275 لدفع 30$ وتفعيل حسابك." };
-  if(i === 16) return { q: "كيف أستخدم لوحة التحكم؟", a: "سجل بحساب المدير، سيظهر زر لوحة التحكم في القائمة." };
-  if(i === 17) return { q: "ما هي كلمة ADB؟", a: "أداة للتواصل بين الكمبيوتر والهاتف لتنفيذ الأوامر." };
-  if(i === 18) return { q: "هل يضر الهاتف؟", a: "لا، الأوامر آمنة، فقط تجنب أوامر الفرمتة إلا إذا كنت تريد مسح الهاتف." };
-  if(i === 19) return { q: "كيف أفرمت الهاتف؟", a: "استخدم أوامر ADB المتقدمة أو زر الفرمتة إذا كان متوفراً." };
-  return { q: `سؤال إضافي رقم ${i+1} حول صيانة الهواتف`, a: "هذا سؤال تجريبي لإكمال المئة سؤال. يمكنك تعديله في الكود لاحقاً." };
-});
+/* 60 سؤالاً حقيقياً */
+const faqData = [
+  { q: "كيف أقوم بتعريب جوال سامسونج S20؟", a: "1. وصل الهاتف وفعل USB Debugging.<br>2. اضغط Check adb للتأكد.<br>3. اذهب لصفحة التعريب واضغط 'إضافة اللغة العربية'.<br>4. أعد تشغيل الهاتف." },
+  { q: "لماذا لا يظهر زر Check adb الهاتف؟", a: "تأكد من: 1. الكابل أصلي. 2. تثبيت تعريفات ADB. 3. تفعيل تصحيح أخطاء USB من خيارات المطور." },
+  { q: "ما هو فك FRP؟", a: "تخطي شاشة حساب جوجل التي تظهر بعد فرمتة الهاتف." },
+  { q: "كيف أفك قفل حساب جوجل؟", a: "صفحة فك القفل -> اضغط 'فك FRP (طريقة عامة)'." },
+  { q: "هل يمكن فك FRP لأندرويد 14؟", a: "نعم في بعض الأجهزة، لكن الأجهزة الحديثة جداً قد تتطلب أدوات مدفوعة." },
+  { q: "كيف أغير اللغة إلى العربية؟", a: "استخدم زر التعريب في صفحة التعريب، واختر إصدار الأندرويد المناسب." },
+  { q: "ماذا أفعل إذا فشل التعريب؟", a: "اضغط على 'إصلاح مشكلة اللغة' ثم أعد المحاولة، أو أعد تشغيل الهاتف." },
+  { q: "كيف أفعل شبكة 4G؟", a: "اذهب لصفحة الشبكة واضغط 'تفعيل 4G (LTE)'." },
+  { q: "لماذا لا تعمل شبكة 4G؟", a: "قد لا تدعم الشريحة أو المنطقة 4G، أو الهاتف لا يدعم التردد." },
+  { q: "ما هو VoLTE؟", a: "مكالمات عبر شبكة 4G، يمكنك تفعيله من صفحة الشبكة." },
+  { q: "كيف أعرف أن التطبيق متصل؟", a: "اضغط Check adb، إذا ظهر رقم (مثل R58) فهو متصل." },
+  { q: "لماذا التطبيق يعرض محاكاة؟", a: "لأنك تستخدم نسخة الويب. يجب تثبيت نسخة الكمبيوتر (.msi)." },
+  { q: "كيف أسجل حساباً؟", a: "من صفحة حسابي، اكتب بريدك أو رقم هاتفك وكلمة مرور (6 أرقام)." },
+  { q: "نسيت كلمة المرور؟", a: "أنشئ حساباً جديداً برقم هاتف آخر، أو تواصل مع المصمم." },
+  { q: "كم عدد العمليات المجانية؟", a: "10 عمليات لكل حساب." },
+  { q: "كيف أفعل الاشتراك؟", a: "تواصل مع المصمم 771713275 لدفع 30$ وتفعيل حسابك." },
+  { q: "كيف أستخدم لوحة التحكم؟", a: "سجل بحساب المدير، سيظهر زر لوحة التحكم في القائمة." },
+  { q: "ما هي كلمة ADB؟", a: "أداة للتواصل بين الكمبيوتر والهاتف لتنفيذ الأوامر." },
+  { q: "هل يضر الهاتف؟", a: "لا، الأوامر آمنة، فقط تجنب أوامر الفرمتة إلا إذا كنت تريد مسح الهاتف." },
+  { q: "كيف أفرمت الهاتف؟", a: "استخدم أوامر ADB المتقدمة أو زر الفرمتة إذا كان متوفراً." },
+  { q: "كيف أدخل وضع الريكفري (Recovery)؟", a: "من صفحة أدوات ADB، اضغط على زر 'إعادة تشغيل Recovery'." },
+  { q: "كيف أدخل وضع الدونلود (Download Mode)؟", a: "استخدم زر الأداة في صفحة Odin، أو أطفئ الهاتف واضغط الأزرار المناسبة." },
+  { q: "ما هي صفحة Odin؟", a: "واجهة لاختيار ملفات الفلاش (BL, AP, CP, CSC) لهواتف سامسونج." },
+  { q: "هل يمكنني عمل فلاش للهاتف من هنا؟", a: "تحتاج برنامج Odin الحقيقي في الخلفية، هذه الواجهة لاختيار الملفات وتوجيهك." },
+  { q: "كيف أستعيد صوري المحذوفة؟", a: "اذهب لصفحة 'استعادة الملفات'، واضغط 'سحب صور الكاميرا'، سيتم نسخ الملفات الموجودة حالياً للكمبيوتر." },
+  { q: "لماذا لا تعمل استعادة الملفات؟", a: "الاستعادة الحقيقية للمحذوف تتطلب روت (Root) أو أدوات خاصة، التطبيق يقوم بسحب الملفات الحالية." },
+  { q: "ما هو أداة ADB pull؟", a: "أمر يقوم بنسخ ملفات من الهاتف إلى الكمبيوتر." },
+  { q: "كيف أخذ نسخة احتياطية للهاتف؟", a: "استخدم زر 'عمل نسخة احتياطية شاملة' في صفحة الاستعادة." },
+  { q: "ما هي أدوات المبرمج؟", a: "صفحة تحتوي على أوامر متقدمة مثل سحب سجلات النظام (Logcat) وعرض الحزم." },
+  { q: "كيف أسحب سجلات النظام؟", a: "من صفحة أدوات المبرمج، اضغط 'سحب سجلات النظام'، سيتم حفظ ملف log.txt." },
+  { q: "كيف أعرف مساحة التخزين؟", a: "من صفحة أدوات المبرمج، اضغط على 'مساحة التخزين'." },
+  { q: "ما هو البوت لودر (Bootloader)؟", a: "برنامج صغير يبدأ تشغيل الهاتف، وغالباً يكون مقفلاً في الأجهزة الحديثة." },
+  { q: "كيف أفتح البوت لودر؟", a: "معظم الأجهزة تحتاج تصريح رسمي من الشركة (مثل شاومي)، لا يمكن فتحه بأمر عادي." },
+  { q: "هل التطبيق يحتاج إنترنت؟", a: "نعم، لتسجيل الدخول ولوحة التحكم، ولكن الأوامر تتم محلياً." },
+  { q: "ماذا يحدث إذا انقطع الإنترنت أثناء العملية؟", a: "لن تتأثر العملية، سيكمل التطبيق ما يفعله." },
+  { q: "هل يمكنني استخدام التطبيق على هاتف آخر؟", a: "نسخة الكمبيوتر تعمل على ويندوز فقط، نسخة الويب تعمل على الهاتف للمعاينة." },
+  { q: "ما هو الثيم الفاتح؟", a: "خيار في الأعلى لتغيير ألوان الواجهة لتصبح بيضاء ومريحة للعين." },
+  { q: "كيف أغير الثيم؟", a: "اضغط على الأزرار في أعلى الصفحة (ليلي، فاتح، ذهبي، سايبر، محيط)." },
+  { q: "لماذا لا يفتح التطبيق؟", a: "تأكد من تخطي حماية ويندوز (Run Anyway)، أو أعد تثبيته." },
+  { q: "خطأ auth/invalid-email؟", a: "هذا يعني أنك كتبت بريداً غير صحيح. إذا كنت تسجل برقم الهاتف، اترك خانة البريد فارغة." },
+  { q: "لماذا لم يظهر حسابي في لوحة التحكم؟", a: "تأكد من اتصالك بالإنترنت في نسخة الكمبيوتر، واضغط 'تحديث القائمة'." },
+  { q: "هل يمكنني حذف حساب؟", a: "للمستخدم لا، للمبرمج يمكنه حذفه من قاعدة البيانات يدوياً." },
+  { q: "كيف أضيف أجهزة جديدة؟", a: "للمبرمج: افتح كود index.html وأضف اسم الموديل في قسم deviceDB." },
+  { q: "هل يدعم النظام الآيفون؟", a: "النظام مخصص للأندرويد، بعض أدوات ADB قد تتعرف على الآيفون لكن العمليات لا تدعمه حالياً." },
+  { q: "ما هو الـ CSC؟", a: "رمز المنطقة (Country Specific Code) في هواتف سامسونج، تغييره يؤثر على الشبكة." },
+  { q: "كيف أغير CSC؟", a: "من صفحة الشبكة، اضغط تغيير CSC (إذا كان الزر متوفراً)." },
+  { q: "هل تغيير CSC يمسح البيانات؟", a: "نعم في بعض الأجهزة الحديثة، احذر." },
+  { q: "هل يمكن تغيير IMEI؟", a: "لا، هذا غير قانوني في معظم الدول ويتطلب أجهزة Hardware خاصة." },
+  { q: "كيف أعرف إصدار الأندرويد؟", a: "من صفحة أدوات ADB، أو عند الضغط على Check adb." },
+  { q: "أين الرقم التسلسلي (SN)؟", a: "يظهر في مربع ADB بعد الضغط على Check adb." },
+  { q: "لماذا يظهر 'انتظر الجهاز'؟", a: "التطبيق لا يتعرف على الهاتف. تأكد من USB Debugging والسماح للكمبيوتر." },
+  { q: "هل يحتاج التطبيق روت (Root)؟", a: "لا، معظم الميزات تعمل بدون روت، لكن بعض ميزات الاستعادة تحتاج روت." },
+  { q: "كيف أعرف إذا كان هاتفي مروت؟", a: "وجود تطبيق Magisk أو SuperSU." },
+  { q: "هل يسترجع الملفات المحذوفة تماماً؟", a: "لا، هذا التطبيق للبرمجة والنسخ الاحتياطي، ليس لاستعادة الملفات المحذوفة من الفلاشة." },
+  { q: "كيف أرسل اقتراحاً؟", a: "تواصل مع المصمم 771713275 على واتساب." },
+  { q: "لماذا التطبيق صغير الحجم؟", a: "لأنه مبني بتقنية Tauri الخفيفة." },
+  { q: "هل يعمل على الهاتف؟", a: "نسخة الويب تعمل للعرض، لكن العمليات تحتاج نسخة الكمبيوتر." },
+  { q: "هل يعمل على ويندوز 7؟", a: "يفضل ويندوز 10 أو 11، لكن قد يعمل على 7 مع بعض المتطلبات." },
+  { q: "ما هي الأوامر التي يستخدمها؟", a: "أوامر قياسية مثل am broadcast و settings put و pm list." },
+  { q: "ماذا أفعل إذا فصلت الكابل أثناء العملية؟", a: "أعد التوصيل واضغط الزر مرة أخرى." },
+  { q: "هل يمكن توصيل أكثر من هاتف؟", a: "يجب توصيل هاتف واحد في كل مرة." },
+  { q: "كيف أتأكد من التعريب؟", a: "شاهد السجل، وإذا ظهر Success اذهب للهاتف وافتح الإعدادات." },
+  { q: "شاشة القفل (PIN)؟", a: "إذا كان USB مفعل، يمكنك محاولة إزالة القفل، إذا لم يكن مفعلاً لن تتمكن." }
+];
 
 function renderFaq(filter = "") {
   const container = document.getElementById('faqContainer');
@@ -529,7 +557,6 @@ function loadUsers() {
         if(u.expiry > now) {
            active++;
            status = '<span style="color:green">نشط</span>';
-           // التحقق من قرب الانتهاء
            if(u.expiry - now < sevenDays) {
               expiringRows += `<tr><td>${u.email}</td><td style="color:orange">${new Date(u.expiry).toLocaleDateString('ar')}</td><td><button class="btn btn-gold" style="padding:5px 10px; font-size:12px;" onclick="toggleSub('${uid}')">تجديد الآن</button></td></tr>`;
            }
