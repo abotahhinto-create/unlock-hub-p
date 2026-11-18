@@ -11,9 +11,10 @@ struct CommandResult {
     output: String,
 }
 
-// دالة للبحث عن مسار adb.exe داخل التطبيق
+// دالة للبحث عن مسار adb.exe داخل التطبيق المثبت
 fn get_adb_path(app_handle: &tauri::AppHandle) -> PathBuf {
     let mut path = app_handle.path().resource_dir().unwrap_or_default();
+    // المسار الصحيح لملفات الـ resources في Tauri v2
     path.push("bin");
     path.push("adb.exe");
     path
@@ -41,12 +42,16 @@ fn execute_adb(app_handle: tauri::AppHandle, command: String) -> CommandResult {
 #[tauri::command]
 fn check_device(app_handle: tauri::AppHandle) -> CommandResult {
     let adb_path = get_adb_path(&app_handle);
+    
+    // أمر adb devices للبحث عن الهواتف
     let output = Command::new(adb_path).arg("devices").output();
 
     match output {
         Ok(out) => {
             let text = String::from_utf8_lossy(&out.stdout).to_string();
             let lines: Vec<&str> = text.lines().collect();
+            
+            // إذا وجد سطراً ثانياً يحتوي على بيانات، فهذا يعني وجود هاتف متصل
             if lines.len() > 1 && !lines[1].trim().is_empty() {
                 let serial = lines[1].split_whitespace().next().unwrap_or("").to_string();
                 if serial != "" && serial != "List" {
