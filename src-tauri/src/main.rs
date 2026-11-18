@@ -11,6 +11,7 @@ struct CommandResult {
     output: String,
 }
 
+// دالة للبحث عن مسار adb.exe داخل التطبيق
 fn get_adb_path(app_handle: &tauri::AppHandle) -> PathBuf {
     let mut path = app_handle.path().resource_dir().unwrap_or_default();
     path.push("bin");
@@ -32,23 +33,19 @@ fn execute_adb(app_handle: tauri::AppHandle, command: String) -> CommandResult {
         },
         Err(e) => CommandResult {
             success: false,
-            output: format!("خطأ: {}", e),
+            output: format!("خطأ في تشغيل ADB. تأكد من تثبيت التعريفات: {}", e),
         },
     }
 }
 
-// دالة جديدة لجلب الرقم التسلسلي عند الضغط على Check ADB
 #[tauri::command]
 fn check_device(app_handle: tauri::AppHandle) -> CommandResult {
     let adb_path = get_adb_path(&app_handle);
-    
-    // أمر جلب الأجهزة المتصلة
     let output = Command::new(adb_path).arg("devices").output();
 
     match output {
         Ok(out) => {
             let text = String::from_utf8_lossy(&out.stdout).to_string();
-            // استخراج الرقم التسلسلي (أول سطر بعد العناوين)
             let lines: Vec<&str> = text.lines().collect();
             if lines.len() > 1 && !lines[1].trim().is_empty() {
                 let serial = lines[1].split_whitespace().next().unwrap_or("").to_string();
