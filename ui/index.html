@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unlock Hub Pro</title>
+<title>النظام العربي الشامل - Unlock Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -68,7 +68,7 @@ th { background: var(--surface-light); color: var(--primary); }
 /* الأسئلة والأجوبة */
 .faq-item { margin-bottom: 10px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .faq-question { background: var(--surface-light); padding: 12px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
-.faq-answer { padding: 12px; background: var(--surface); display: none; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+.faq-answer { padding: 12px; background: var(--surface); display: none; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); line-height: 1.6; }
 
 /* بطاقة المصمم */
 .designer-card { background: linear-gradient(135deg, var(--surface-light), var(--surface)); border: 2px solid var(--primary); border-radius: 12px; padding: 20px; text-align: center; margin-top: 20px; }
@@ -91,7 +91,7 @@ th { background: var(--surface-light); color: var(--primary); }
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-title">النظام العربي الشامل<br>لبرمجة الأجهزة</div>
-    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v21.0 Pro</div>
+    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">v23.0 Pro</div>
   </div>
   <div class="nav-links">
     <button class="nav-btn active" onclick="navigate('dashboard', this)">🏠 الرئيسية</button>
@@ -245,21 +245,23 @@ th { background: var(--surface-light); color: var(--primary); }
         </div>
       </div>
 
-      <!-- 10. دليل التشغيل -->
+      <!-- 10. دليل التشغيل والتعريفات -->
       <div id="page-guide" class="page">
         <div class="card">
-          <div class="card-title">📖 دليل التشغيل</div>
-          <p style="margin-bottom:10px; font-weight:bold;">1. تثبيت التعريفات على الكمبيوتر.</p>
+          <div class="card-title">📖 دليل التشغيل والتعريفات</div>
+          <p style="margin-bottom:10px; font-weight:bold;">1. قم بتثبيت التعريفات من الزر أدناه.</p>
           <p style="margin-bottom:10px; font-weight:bold;">2. تفعيل USB Debugging في الهاتف.</p>
           <p style="margin-bottom:10px; font-weight:bold;">3. توصيل الهاتف والسماح بالاتصال.</p>
           <p style="margin-bottom:10px; font-weight:bold;">4. الضغط على Check adb.</p>
+          
+          <button class="btn btn-gold" style="width:100%; margin-top:10px;" onclick="installDrivers()">⚙️ تثبيت تعريفات جميع الهواتف تلقائياً</button>
         </div>
       </div>
 
       <!-- 11. الأسئلة -->
       <div id="page-faq" class="page">
         <div class="card">
-          <div class="card-title">❓ الأسئلة الشائعة</div>
+          <div class="card-title">❓ الأسئلة الشائعة (60)</div>
           <input type="text" class="form-control" id="faqSearch" onkeyup="searchFaq()" placeholder="ابحث...">
           <div id="faqContainer" style="max-height: 400px; overflow-y: auto;"></div>
         </div>
@@ -362,7 +364,6 @@ function setTheme(theme) { document.body.setAttribute('data-theme', theme); }
 async function checkAdb() {
   const serialInput = document.getElementById('adbSerial');
   const term = document.getElementById('terminal');
-  
   serialInput.value = "Checking...";
   term.innerHTML += `<div style="color:#ffaa00;">Check adb ...</div>`;
   term.scrollTop = term.scrollHeight;
@@ -408,6 +409,21 @@ async function runCmd(cmd) {
     setTimeout(() => { term.innerHTML += `<div style="color:#00ff88;">[Simulation] ${cmd} simulated.</div>`; }, 800);
   }
   term.scrollTop = term.scrollHeight;
+}
+
+async function installDrivers() {
+  if (window.__TAURI__) {
+    const term = document.getElementById('terminal');
+    term.innerHTML += `<div style="color:#ffaa00;">> Installing Drivers...</div>`;
+    try {
+      const result = await window.__TAURI__.core.invoke('install_drivers');
+      term.innerHTML += `<div style="color:#00ff88;">${result.output}</div>`;
+    } catch (e) { 
+      term.innerHTML += `<div style="color:#ff5555;">[Error] ${e}</div>`; 
+    }
+  } else {
+    alert("هذه الميزة تعمل فقط في تطبيق الكمبيوتر.");
+  }
 }
 
 /* 60 سؤالاً حقيقياً */
