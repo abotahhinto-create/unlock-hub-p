@@ -11,10 +11,8 @@ struct CommandResult {
     output: String,
 }
 
-// دالة للبحث عن مسار adb.exe داخل التطبيق المثبت
 fn get_adb_path(app_handle: &tauri::AppHandle) -> PathBuf {
     let mut path = app_handle.path().resource_dir().unwrap_or_default();
-    // المسار الصحيح لملفات الـ resources في Tauri v2
     path.push("bin");
     path.push("adb.exe");
     path
@@ -34,7 +32,7 @@ fn execute_adb(app_handle: tauri::AppHandle, command: String) -> CommandResult {
         },
         Err(e) => CommandResult {
             success: false,
-            output: format!("خطأ في تشغيل ADB. تأكد من تثبيت التعريفات: {}", e),
+            output: format!("خطأ في تشغيل ADB: {}", e),
         },
     }
 }
@@ -42,16 +40,12 @@ fn execute_adb(app_handle: tauri::AppHandle, command: String) -> CommandResult {
 #[tauri::command]
 fn check_device(app_handle: tauri::AppHandle) -> CommandResult {
     let adb_path = get_adb_path(&app_handle);
-    
-    // أمر adb devices للبحث عن الهواتف
     let output = Command::new(adb_path).arg("devices").output();
 
     match output {
         Ok(out) => {
             let text = String::from_utf8_lossy(&out.stdout).to_string();
             let lines: Vec<&str> = text.lines().collect();
-            
-            // إذا وجد سطراً ثانياً يحتوي على بيانات، فهذا يعني وجود هاتف متصل
             if lines.len() > 1 && !lines[1].trim().is_empty() {
                 let serial = lines[1].split_whitespace().next().unwrap_or("").to_string();
                 if serial != "" && serial != "List" {
@@ -64,9 +58,25 @@ fn check_device(app_handle: tauri::AppHandle) -> CommandResult {
     }
 }
 
+#[tauri::command]
+fn install_drivers(app_handle: tauri::AppHandle) -> CommandResult {
+    let mut path = app_handle.path().resource_dir().unwrap_or_default();
+    path.push("drivers");
+    
+    // تشغيل ملف التعريف الشامل بصمت
+    let driver_path = path.join("Universal ADB Driver v5.0.exe"); // تأكد من مطابقة الاسم بالضبط لما رفعته
+    
+    let output = Command::new(driver_path).arg("/S").output();
+    
+    match output {
+        Ok(_) => CommandResult { success: true, output: "تم إرسال أمر تثبيت التعريفات بنجاح!".to_string() },
+        Err(e) => CommandResult { success: false, output: format!("حدث خطأ أثناء محاولة التثبيت: {}", e) },
+    }
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![execute_adb, check_device])
+        .invoke_handler(tauri::generate_handler![execute_adb, check_device, install_drivers])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
