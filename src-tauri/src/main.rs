@@ -20,12 +20,12 @@ fn check_device(app_handle: tauri::AppHandle) -> CommandResult {
                 return CommandResult { success: false, output: "لم يتم العثور على جهاز - تأكد من تفعيل تصحيح USB ووصل الكابل".to_string() };
             }
             for line in &lines {
-                if line.contains("device") && !line.contains("unauthorized") {
-                    let serial = line.split_whitespace().next().unwrap_or("").to_string();
-                    return CommandResult { success: true, output: serial };
-                }
                 if line.contains("unauthorized") {
                     return CommandResult { success: false, output: "الجهاز غير مصرح - اضغط 'السماح' على شاشة الهاتف".to_string() };
+                }
+                if line.contains("device") {
+                    let serial = line.split_whitespace().next().unwrap_or("").to_string();
+                    return CommandResult { success: true, output: serial };
                 }
             }
             CommandResult { success: false, output: "جهاز غير متصل بشكل صحيح".to_string() }
@@ -44,7 +44,10 @@ fn execute_adb(app_handle: tauri::AppHandle, command: String) -> CommandResult {
             let stdout = String::from_utf8_lossy(&o.stdout).to_string();
             let stderr = String::from_utf8_lossy(&o.stderr).to_string();
             let combined = format!("{}{}", stdout, stderr);
-            CommandResult { success: o.status.success(), output: if combined.trim().is_empty() { "تم التنفيذ بنجاح".to_string() } else { combined } }
+            CommandResult {
+                success: o.status.success(),
+                output: if combined.trim().is_empty() { "تم التنفيذ بنجاح".to_string() } else { combined },
+            }
         }
         Err(e) => CommandResult { success: false, output: format!("خطأ: {}", e) },
     }
@@ -52,7 +55,6 @@ fn execute_adb(app_handle: tauri::AppHandle, command: String) -> CommandResult {
 
 #[tauri::command]
 fn install_drivers(app_handle: tauri::AppHandle) -> CommandResult {
-    // الإصلاح هنا: نجيب المسار بطريقة ما تسبب خطأ join
     let resource_dir: PathBuf = app_handle
         .path()
         .resource_dir()
@@ -70,17 +72,27 @@ fn install_drivers(app_handle: tauri::AppHandle) -> CommandResult {
         return CommandResult { success: false, output: format!("مجلد drivers فاضي! المسار: {:?}", drivers_dir) };
     }
 
-    let names = vec!["Universal ADB Driver v5.0.exe", "Universal_ADB_Driver.exe", "adb-driver-installer.exe"];
+    let names = vec![
+        "Universal ADB Driver v5.0.exe",
+        "Universal_ADB_Driver.exe",
+        "adb-driver-installer.exe",
+    ];
+
     for name in names {
         let driver_path: PathBuf = drivers_dir.join(name);
         if driver_path.exists() {
             let ps = format!("Start-Process -FilePath '{}' -ArgumentList '/S' -Verb RunAs", driver_path.display());
             match Command::new("powershell").args(["-Command", &ps]).spawn() {
-                Ok(_) => return CommandResult { success: true, output: format!("تم تشغيل المثبت كمسؤول: {} - اضغط Yes إذا طلعت نافذة ويندوز", name) },
-                Err(e) => return CommandResult { success: false, output: format!("فشل التشغيل: {}", e) },
+                Ok(_) => {
+                    return CommandResult { success: true, output: format!("تم تشغيل المثبت كمسؤول: {} - اضغط Yes اذا طلعت نافذة ويندوز", name) }
+                }
+                Err(e) => {
+                    return CommandResult { success: false, output: format!("فشل التشغيل: {}", e) }
+                }
             }
         }
     }
+
     CommandResult { success: false, output: format!("لم يتم العثور على ملف التعريف. الموجود:\n{}", found) }
 }
 
@@ -99,7 +111,6 @@ fn get_adb_path(app_handle: &tauri::AppHandle) -> PathBuf {
 
 fn main() {
     tauri::Builder::default()
-        .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![check_device, execute_adb, install_drivers])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
